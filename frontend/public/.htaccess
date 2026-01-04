@@ -1,14 +1,16 @@
 # Hostinger Configuration for React Router (SPA)
 # This file ensures React Router works correctly on Hostinger
+# Prevents 404 errors when refreshing routes like /register, /board, /contact
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
   
-  # Handle React Router - redirect all requests to index.html
-  RewriteRule ^index\.html$ - [L]
+  # Don't rewrite files or directories that exist
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Rewrite everything else to index.html for React Router
   RewriteRule . /index.html [L]
 </IfModule>
 

@@ -31,7 +31,7 @@ This is a quick guide to get your automated deployment working with FTP.
    - Value: Your FTP username
 
    **Secret 3:**
-   - Name: `PASSWORD`
+   - Name: `FTP_PASSWORD`
    - Value: Your FTP password
 
 ## Step 3: Test the Deployment
