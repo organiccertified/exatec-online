@@ -55,3 +55,28 @@ a[href="#app-main"]:focus {
   font-weight: 600;
 }
 
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  /* Ensure touch targets are at least 44x44px */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent text size adjustment on iOS */
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  /* Improve scrolling on mobile */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+

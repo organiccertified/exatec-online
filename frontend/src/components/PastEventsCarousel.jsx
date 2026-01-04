@@ -57,9 +57,9 @@ const PastEventsCarousel = () => {
   }
 
   return (
-    <section id="past-events-section" className="py-12 bg-white">
-      <div id="past-events-container" className="container mx-auto px-4">
-        <h2 id="past-events-title" className="text-3xl font-bold text-tec-blue mb-8 text-center">Past Events</h2>
+    <section id="past-events-section" className="py-6 sm:py-12 bg-white">
+      <div id="past-events-container" className="container mx-auto px-3 sm:px-4">
+        <h2 id="past-events-title" className="text-2xl sm:text-3xl font-bold text-tec-blue mb-4 sm:mb-8 text-center">Past Events</h2>
         <div id="past-events-carousel-wrapper" className="relative max-w-6xl mx-auto">
           <div id="past-events-carousel-container" className="overflow-hidden rounded-lg">
             <div
@@ -68,17 +68,17 @@ const PastEventsCarousel = () => {
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {pastEvents.map((event) => (
-                <div key={event.id} id={`past-events-slide-${event.id}`} className="min-w-full flex-shrink-0 px-2">
+                <div key={event.id} id={`past-events-slide-${event.id}`} className="min-w-full flex-shrink-0 px-1 sm:px-2">
                   <div id={`past-events-card-${event.id}`} className="relative group">
                     <img
                       id={`past-events-image-${event.id}`}
                       src={event.image}
                       alt={event.title}
-                      className="w-full h-96 object-cover rounded-lg shadow-lg"
+                      className="w-full h-48 sm:h-64 md:h-96 object-cover rounded-lg shadow-lg"
                     />
                     <div id={`past-events-overlay-${event.id}`} className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div id={`past-events-overlay-content-${event.id}`} className="absolute bottom-4 left-4 right-4">
-                        <h3 id={`past-events-title-${event.id}`} className="text-white text-xl font-semibold">{event.title}</h3>
+                      <div id={`past-events-overlay-content-${event.id}`} className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4">
+                        <h3 id={`past-events-title-${event.id}`} className="text-white text-base sm:text-xl font-semibold">{event.title}</h3>
                       </div>
                     </div>
                   </div>
@@ -91,20 +91,20 @@ const PastEventsCarousel = () => {
           <button
             id="past-events-prev-button"
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
+            className="absolute left-1 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
             aria-label="Previous slide"
           >
-            <svg id="past-events-prev-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg id="past-events-prev-icon" className="w-5 h-5 sm:w-6 sm:h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             id="past-events-next-button"
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
+            className="absolute right-1 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
             aria-label="Next slide"
           >
-            <svg id="past-events-next-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg id="past-events-next-icon" className="w-5 h-5 sm:w-6 sm:h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>

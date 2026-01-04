@@ -21,12 +21,12 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact-section" className="py-12 bg-gray-50">
-      <div id="contact-container" className="container mx-auto px-4 max-w-2xl">
-        <h1 id="contact-title" className="text-4xl font-bold text-tec-blue mb-8 text-center">
+    <section id="contact-section" className="py-6 sm:py-12 bg-gray-50">
+      <div id="contact-container" className="container mx-auto px-3 sm:px-4 max-w-2xl">
+        <h1 id="contact-title" className="text-2xl sm:text-3xl md:text-4xl font-bold text-tec-blue mb-4 sm:mb-8 text-center">
           Contact Us
         </h1>
-        <form id="contact-form" onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg">
+        <form id="contact-form" onSubmit={handleSubmit} className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
           <div id="contact-name-field" className="mb-6">
             <label 
               id="contact-name-label" 
@@ -85,7 +85,7 @@ const Contact = () => {
             <button
               id="contact-send-button"
               type="submit"
-              className="bg-tec-blue text-white px-8 py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-lg"
+              className="bg-tec-blue text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-base sm:text-lg w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
             >
               Send
             </button>

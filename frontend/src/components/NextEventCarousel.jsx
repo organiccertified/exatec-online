@@ -40,10 +40,10 @@ const NextEventCarousel = () => {
   }
 
   return (
-    <section id="next-event-section" className="py-12 bg-gray-50" aria-labelledby="next-event-title">
-      <div id="next-event-container" className="container mx-auto px-4">
-        <h2 id="next-event-title" className="text-3xl font-bold text-tec-blue mb-8 text-center">Next Event</h2>
-        <div id="next-event-carousel-wrapper" className="relative max-w-4xl mx-auto h-[600px]">
+    <section id="next-event-section" className="py-6 sm:py-12 bg-gray-50" aria-labelledby="next-event-title">
+      <div id="next-event-container" className="container mx-auto px-3 sm:px-4">
+        <h2 id="next-event-title" className="text-2xl sm:text-3xl font-bold text-tec-blue mb-4 sm:mb-8 text-center">Next Event</h2>
+        <div id="next-event-carousel-wrapper" className="relative max-w-4xl mx-auto h-[500px] sm:h-[600px]">
           <div 
             id="next-event-carousel-container" 
             className="overflow-hidden rounded-lg shadow-xl h-full"
@@ -66,8 +66,8 @@ const NextEventCarousel = () => {
                   aria-label={`Event ${index + 1} of ${events.length}: ${event.title}`}
                 >
                   <div id={`next-event-card-${event.id}`} className="bg-white rounded-lg overflow-hidden h-full">
-                    <div id={`next-event-card-content-${event.id}`} className="md:flex h-full">
-                      <div id={`next-event-image-wrapper-${event.id}`} className="md:w-1/2 h-full relative">
+                    <div id={`next-event-card-content-${event.id}`} className="flex flex-col md:flex-row h-full">
+                      <div id={`next-event-image-wrapper-${event.id}`} className="w-full md:w-1/2 h-1/2 md:h-full relative">
                         <img
                           id={`next-event-image-${event.id}`}
                           src={event.image}
@@ -78,19 +78,19 @@ const NextEventCarousel = () => {
                         <button
                           id={`next-event-register-button-${event.id}`}
                           aria-label={`Register for ${event.title}`}
-                          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-tec-blue text-white px-8 py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+                          className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-tec-blue text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-sm sm:text-base shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
                         >
                           Register
                         </button>
                       </div>
-                      <div id={`next-event-text-wrapper-${event.id}`} className="md:w-1/2 p-8 flex flex-col justify-center h-full">
-                        <p id={`next-event-date-${event.id}`} className="text-tec-blue font-semibold mb-2">{event.date}</p>
-                        <h3 id={`next-event-card-title-${event.id}`} className="text-2xl font-bold text-gray-800 mb-4">{event.title}</h3>
-                        <p id={`next-event-description-${event.id}`} className="text-gray-600 mb-6">{event.description}</p>
+                      <div id={`next-event-text-wrapper-${event.id}`} className="w-full md:w-1/2 p-4 sm:p-6 md:p-8 flex flex-col justify-center h-1/2 md:h-full overflow-y-auto">
+                        <p id={`next-event-date-${event.id}`} className="text-tec-blue font-semibold mb-2 text-sm sm:text-base">{event.date}</p>
+                        <h3 id={`next-event-card-title-${event.id}`} className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">{event.title}</h3>
+                        <p id={`next-event-description-${event.id}`} className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">{event.description}</p>
                         <button 
                           id={`next-event-learn-more-${event.id}`} 
                           aria-label={`Learn more about ${event.title}`}
-                          className="bg-tec-blue text-white px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors w-fit focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+                          className="bg-tec-blue text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors text-sm sm:text-base w-full sm:w-fit focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
                         >
                           Learn More
                         </button>
@@ -109,11 +109,11 @@ const NextEventCarousel = () => {
             onKeyDown={(e) => {
               if (e.key === 'ArrowLeft') prevSlide()
             }}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+            className="absolute left-1 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
             aria-label="Previous event"
             aria-controls="next-event-carousel-track"
           >
-            <svg id="next-event-prev-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg id="next-event-prev-icon" className="w-5 h-5 sm:w-6 sm:h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -123,11 +123,11 @@ const NextEventCarousel = () => {
             onKeyDown={(e) => {
               if (e.key === 'ArrowRight') nextSlide()
             }}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+            className="absolute right-1 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
             aria-label="Next event"
             aria-controls="next-event-carousel-track"
           >
-            <svg id="next-event-next-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg id="next-event-next-icon" className="w-5 h-5 sm:w-6 sm:h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>

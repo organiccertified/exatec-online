@@ -6,26 +6,26 @@ const Navigation = ({ selectedOrg }) => {
 
   return (
     <nav id="navigation-main" className="w-full border-b border-gray-200" role="navigation" aria-label="Main navigation">
-      <div id="navigation-container" className="container mx-auto px-4 py-4">
-        <div id="navigation-header" className="text-center mb-6">
+      <div id="navigation-container" className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        <div id="navigation-header" className="text-center mb-4 sm:mb-6">
           <img 
             id="navigation-logo"
             src={exatecLogo} 
             alt="EXATEC - Tec de Monterrey Alumni Association" 
-            className="mx-auto"
+            className="mx-auto w-32 sm:w-48 md:w-56 max-w-full h-auto"
             width="200"
             height="auto"
           />
         </div>
-        <h1 id="navigation-organization-header" className="text-2xl font-bold text-tec-blue text-center mb-6">
+        <h1 id="navigation-organization-header" className="text-xl sm:text-2xl md:text-3xl font-bold text-tec-blue text-center mb-4 sm:mb-6">
           {selectedOrg}
         </h1>
-        <div id="navigation-buttons" className="flex gap-4 justify-center">
+        <div id="navigation-buttons" className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 md:gap-4 justify-center items-stretch sm:items-center w-full">
           <Link
             id="navigation-home-button"
             to="/"
             aria-current={location.pathname === '/' ? 'page' : undefined}
-            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
+            className={`flex-1 sm:flex-none px-4 sm:px-5 md:px-6 py-3 sm:py-2 text-sm sm:text-base rounded-lg transition-colors font-medium text-center focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 min-h-[44px] flex items-center justify-center ${
               location.pathname === '/' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
@@ -37,7 +37,7 @@ const Navigation = ({ selectedOrg }) => {
             id="navigation-register-button"
             to="/register"
             aria-current={location.pathname === '/register' ? 'page' : undefined}
-            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
+            className={`flex-1 sm:flex-none px-4 sm:px-5 md:px-6 py-3 sm:py-2 text-sm sm:text-base rounded-lg transition-colors font-medium text-center focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 min-h-[44px] flex items-center justify-center ${
               location.pathname === '/register' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
@@ -49,7 +49,7 @@ const Navigation = ({ selectedOrg }) => {
             id="navigation-board-button"
             to="/board"
             aria-current={location.pathname === '/board' ? 'page' : undefined}
-            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
+            className={`flex-1 sm:flex-none px-4 sm:px-5 md:px-6 py-3 sm:py-2 text-sm sm:text-base rounded-lg transition-colors font-medium text-center focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 min-h-[44px] flex items-center justify-center ${
               location.pathname === '/board' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
@@ -61,7 +61,7 @@ const Navigation = ({ selectedOrg }) => {
             id="navigation-contact-button"
             to="/contact"
             aria-current={location.pathname === '/contact' ? 'page' : undefined}
-            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
+            className={`flex-1 sm:flex-none px-4 sm:px-5 md:px-6 py-3 sm:py-2 text-sm sm:text-base rounded-lg transition-colors font-medium text-center focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 min-h-[44px] flex items-center justify-center ${
               location.pathname === '/contact' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
@@ -69,7 +69,7 @@ const Navigation = ({ selectedOrg }) => {
           >
             Contact
           </Link>
-          <div id="navigation-social-icons" className="flex gap-3 items-center ml-4">
+          <div id="navigation-social-icons" className="flex gap-3 sm:gap-3 items-center justify-center w-full sm:w-auto sm:ml-4 mt-2 sm:mt-0">
             <a
               id="navigation-facebook-icon"
               href="https://www.facebook.com"
@@ -80,7 +80,7 @@ const Navigation = ({ selectedOrg }) => {
             >
               <svg
                 id="navigation-facebook-svg"
-                className="w-6 h-6"
+                className="w-5 h-5 sm:w-6 sm:h-6"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@ const Navigation = ({ selectedOrg }) => {
             >
               <svg
                 id="navigation-instagram-svg"
-                className="w-6 h-6"
+                className="w-5 h-5 sm:w-6 sm:h-6"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ const Navigation = ({ selectedOrg }) => {
             >
               <svg
                 id="navigation-whatsapp-svg"
-                className="w-6 h-6"
+                className="w-5 h-5 sm:w-6 sm:h-6"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"

@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
-    <footer id="footer-main" className="bg-tec-blue text-white py-6" role="contentinfo">
-      <div id="footer-container" className="container mx-auto px-4">
-        <div id="footer-content" className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div id="footer-version" className="text-sm">
+    <footer id="footer-main" className="bg-tec-blue text-white py-4 sm:py-6" role="contentinfo">
+      <div id="footer-container" className="container mx-auto px-3 sm:px-4">
+        <div id="footer-content" className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
+          <div id="footer-version" className="text-xs sm:text-sm text-center sm:text-left">
             Version 1.0.0
           </div>
-          <div id="footer-links" className="flex flex-col md:flex-row items-center gap-4">
+          <div id="footer-links" className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <Link
               id="footer-add-association-link"
               to="/contact"

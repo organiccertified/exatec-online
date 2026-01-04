@@ -10,8 +10,8 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
 
   return (
     <header id="header-main" className="w-full bg-white shadow-md" role="banner">
-      <div id="header-container" className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div id="header-dropdown-wrapper" className="relative">
+      <div id="header-container" className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+        <div id="header-dropdown-wrapper" className="relative w-full sm:w-auto">
           <button
             id="header-dropdown-button"
             onClick={() => setIsOpen(!isOpen)}
@@ -21,9 +21,9 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             aria-label="Select your Organization"
-            className="flex items-center gap-2 px-4 py-2 text-tec-blue hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base text-tec-blue hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 w-full sm:w-auto justify-between sm:justify-start"
           >
-            <span id="header-dropdown-label" className="font-medium">Select your Organization</span>
+            <span id="header-dropdown-label" className="font-medium truncate">Select your Organization</span>
             <svg
               id="header-dropdown-arrow"
               className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -45,7 +45,7 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
               ></div>
               <div 
                 id="header-dropdown-menu" 
-                className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-20 border border-gray-200"
+                className="absolute left-0 mt-2 w-full sm:w-48 bg-white rounded-lg shadow-lg z-20 border border-gray-200"
                 role="listbox"
                 aria-label="Organization options"
               >
@@ -113,7 +113,7 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
           id="header-sign-in-button"
           onClick={() => setShowSignIn(true)}
           aria-label="Sign in to your account"
-          className="bg-tec-blue text-white px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+          className="bg-tec-blue text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 w-full sm:w-auto"
         >
           Sign in
         </button>
@@ -128,7 +128,7 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
           >
             <div
               id="signin-popup-content"
-              className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4 relative"
+              className="bg-white rounded-lg shadow-xl p-4 sm:p-8 max-w-md w-full mx-4 relative max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
