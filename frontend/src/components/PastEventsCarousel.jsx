@@ -57,7 +57,7 @@ const PastEventsCarousel = () => {
   }
 
   return (
-    <section id="past-events-section" className="py-6 sm:py-12 bg-white">
+    <section id="past-events-section" className="pt-12 sm:pt-12 py-6 sm:py-12 bg-white">
       <div id="past-events-container" className="container mx-auto px-3 sm:px-4">
         <h2 id="past-events-title" className="text-2xl sm:text-3xl font-bold text-tec-blue mb-4 sm:mb-8 text-center">Past Events</h2>
         <div id="past-events-carousel-wrapper" className="relative max-w-6xl mx-auto">

@@ -40,7 +40,7 @@ const NextEventCarousel = () => {
   }
 
   return (
-    <section id="next-event-section" className="py-6 sm:py-12 bg-gray-50" aria-labelledby="next-event-title">
+    <section id="next-event-section" className="py-6 sm:py-12 pb-12 sm:pb-12 bg-gray-50" aria-labelledby="next-event-title">
       <div id="next-event-container" className="container mx-auto px-3 sm:px-4">
         <h2 id="next-event-title" className="text-2xl sm:text-3xl font-bold text-tec-blue mb-4 sm:mb-8 text-center">Next Event</h2>
         <div id="next-event-carousel-wrapper" className="relative max-w-4xl mx-auto h-[500px] sm:h-[600px]">
@@ -133,7 +133,7 @@ const NextEventCarousel = () => {
           </button>
 
               {/* Dots Indicator */}
-              <div id="next-event-dots-container" className="flex justify-center mt-6 gap-2" role="tablist" aria-label="Event navigation">
+              <div id="next-event-dots-container" className="flex justify-center mt-3 gap-2" role="tablist" aria-label="Event navigation">
                 {events.map((_, index) => (
                   <button
                     key={index}
@@ -142,7 +142,7 @@ const NextEventCarousel = () => {
                     role="tab"
                     aria-selected={index === currentIndex}
                     aria-controls={`next-event-slide-${events[index].id}`}
-                    className={`w-3 h-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
+                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
                       index === currentIndex ? 'bg-tec-blue' : 'bg-gray-300 hover:bg-gray-400'
                     }`}
                     aria-label={`Go to event ${index + 1}: ${events[index].title}`}
