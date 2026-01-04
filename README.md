@@ -2,6 +2,8 @@
 
 A full-stack web application for managing different chapters of the Tec de Monterrey alumni association.
 
+**Repository**: [https://github.com/organiccertified/exatec-online](https://github.com/organiccertified/exatec-online)
+
 ## Project Structure
 
 ```
@@ -115,6 +117,27 @@ The website uses Tec de Monterrey's official color palette:
 ## Backend API
 
 The backend API is currently in development. See `backend/README.md` for more details.
+
+## Deployment
+
+### Hostinger Deployment
+
+This project is configured for deployment on Hostinger hosting. See `HOSTINGER_DEPLOYMENT.md` for detailed deployment instructions.
+
+**Quick deploy:**
+```bash
+npm run deploy
+# or
+npm run build:hostinger
+```
+
+This builds the frontend for production. Upload the contents of `frontend/dist/` to Hostinger's `public_html/` directory.
+
+**Requirements:**
+- Hostinger Business or Cloud hosting plan (for Node.js support)
+- Node.js enabled in Hostinger control panel (for backend)
+
+See `HOSTINGER_DEPLOYMENT.md` for complete deployment guide.
 
 ## Contributing
 
