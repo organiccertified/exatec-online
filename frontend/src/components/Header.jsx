@@ -1,0 +1,210 @@
+import { useState } from 'react'
+
+const Header = ({ selectedOrg, setSelectedOrg }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [showSignIn, setShowSignIn] = useState(false)
+  const [signInData, setSignInData] = useState({
+    email: '',
+    password: ''
+  })
+
+  return (
+    <header id="header-main" className="w-full bg-white shadow-md">
+      <div id="header-container" className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div id="header-dropdown-wrapper" className="relative">
+          <button
+            id="header-dropdown-button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex items-center gap-2 px-4 py-2 text-tec-blue hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <span id="header-dropdown-label" className="font-medium">Select your Organization</span>
+            <svg
+              id="header-dropdown-arrow"
+              className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          {isOpen && (
+            <>
+              <div
+                id="header-dropdown-overlay"
+                className="fixed inset-0 z-10"
+                onClick={() => setIsOpen(false)}
+              ></div>
+              <div id="header-dropdown-menu" className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-20 border border-gray-200">
+                <button
+                  id="header-dropdown-option-dallas"
+                  onClick={() => {
+                    setSelectedOrg('Dallas')
+                    setIsOpen(false)
+                  }}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                    selectedOrg === 'Dallas' ? 'bg-tec-blue text-white' : 'text-gray-700'
+                  }`}
+                >
+                  Dallas
+                </button>
+                <button
+                  id="header-dropdown-option-chicago"
+                  onClick={() => {
+                    setSelectedOrg('Chicago')
+                    setIsOpen(false)
+                  }}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                    selectedOrg === 'Chicago' ? 'bg-tec-blue text-white' : 'text-gray-700'
+                  }`}
+                >
+                  Chicago
+                </button>
+                <button
+                  id="header-dropdown-option-san-antonio"
+                  onClick={() => {
+                    setSelectedOrg('San Antonio')
+                    setIsOpen(false)
+                  }}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                    selectedOrg === 'San Antonio' ? 'bg-tec-blue text-white' : 'text-gray-700'
+                  }`}
+                >
+                  San Antonio
+                </button>
+                <button
+                  id="header-dropdown-option-houston"
+                  onClick={() => {
+                    setSelectedOrg('Houston')
+                    setIsOpen(false)
+                  }}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                    selectedOrg === 'Houston' ? 'bg-tec-blue text-white' : 'text-gray-700'
+                  }`}
+                >
+                  Houston
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+        <button
+          id="header-sign-in-button"
+          onClick={() => setShowSignIn(true)}
+          className="bg-tec-blue text-white px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
+        >
+          Sign in
+        </button>
+      </div>
+
+      {showSignIn && (
+        <>
+          <div
+            id="signin-popup-overlay"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+            onClick={() => setShowSignIn(false)}
+          >
+            <div
+              id="signin-popup-content"
+              className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 id="signin-popup-title" className="text-2xl font-bold text-tec-blue text-center mb-2">
+                Sign in to Exatec.online
+              </h2>
+              <p id="signin-popup-signup-text" className="text-center text-gray-600 mb-6">
+                Don't have an account? <span id="signin-popup-signup-link" className="text-tec-blue hover:underline cursor-pointer">Sign up</span>
+              </p>
+              
+              <form id="signin-form" className="space-y-4">
+                <div id="signin-email-field">
+                  <input
+                    id="signin-email-input"
+                    type="email"
+                    placeholder="Email Address"
+                    value={signInData.email}
+                    onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+                <div id="signin-password-field">
+                  <input
+                    id="signin-password-input"
+                    type="password"
+                    placeholder="Password"
+                    value={signInData.password}
+                    onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+                <div id="signin-forgot-password-container" className="text-right mb-4">
+                  <a
+                    id="signin-forgot-password-link"
+                    href="#"
+                    className="text-tec-blue hover:underline text-sm"
+                  >
+                    Forgot Password
+                  </a>
+                </div>
+                <button
+                  id="signin-submit-button"
+                  type="submit"
+                  className="w-full bg-tec-blue text-white px-4 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
+                >
+                  Sign In
+                </button>
+              </form>
+
+              <div id="signin-divider-container" className="flex items-center my-6">
+                <div id="signin-divider-line" className="flex-1 border-t border-gray-300"></div>
+                <span id="signin-divider-text" className="px-4 text-gray-500 text-sm">or</span>
+                <div id="signin-divider-line-2" className="flex-1 border-t border-gray-300"></div>
+              </div>
+
+              <div id="signin-social-buttons" className="space-y-3">
+                <button
+                  id="signin-google-button"
+                  className="w-full flex items-center justify-center gap-3 px-4 py-2 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                >
+                  <svg id="signin-google-icon" className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                  <span id="signin-google-text">Continue with Google</span>
+                </button>
+                <button
+                  id="signin-facebook-button"
+                  className="w-full flex items-center justify-center gap-3 px-4 py-2 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                >
+                  <svg id="signin-facebook-icon" className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  <span id="signin-facebook-text">Continue with Facebook</span>
+                </button>
+              </div>
+
+              <button
+                id="signin-popup-close-button"
+                onClick={() => setShowSignIn(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="Close"
+              >
+                <svg id="signin-close-icon" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </header>
+  )
+}
+
+export default Header
+

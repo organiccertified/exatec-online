@@ -1,0 +1,19 @@
+{
+  "name": "amigos-exatec-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend API for Amigos Exatec Alumni Association",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "alumni",
+    "api",
+    "backend"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+
