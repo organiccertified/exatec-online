@@ -1,12 +1,89 @@
 # Hostinger Deployment Guide
 
-This project is configured for deployment on Hostinger hosting.
+This project is configured for deployment on Hostinger hosting with **automated GitHub Actions deployment**.
 
 ## Hostinger Requirements
 
 - **Hosting Plan**: Business or Cloud hosting (required for Node.js support)
 - **Node.js**: Supported on Business and Cloud plans
 - **React/Vite**: Fully supported
+
+## 🚀 Automated Deployment via GitHub Actions
+
+The project includes automated deployment workflows that build and deploy to Hostinger automatically when you push to the `main` branch.
+
+### Available Workflows
+
+1. **FTP Deployment** (`.github/workflows/deploy-hostinger.yml`) - Recommended for most users
+2. **SFTP Deployment** (`.github/workflows/deploy-hostinger-sftp.yml`) - More secure, requires SSH access
+
+### Setup Instructions
+
+#### Option 1: FTP Deployment (Currently Active)
+
+1. **Get FTP credentials from Hostinger:**
+   - Log into Hostinger control panel
+   - Go to **Files** → **FTP Accounts**
+   - Note your FTP server, username, and password
+
+2. **Add GitHub Secrets:**
+   - Go to your GitHub repository
+   - Navigate to **Settings** → **Secrets and variables** → **Actions**
+   - Click **New repository secret** and add:
+     - `FTP_SERVER` - Your FTP server (e.g., `ftp.yourdomain.com` or IP address)
+     - `FTP_USERNAME` - Your FTP username
+     - `FTP_PASSWORD` - Your FTP password
+
+3. **Enable the workflow:**
+   - The workflow is already configured in `.github/workflows/deploy-hostinger.yml`
+   - It will automatically run on pushes to `main` branch
+   - You can also trigger it manually from the **Actions** tab
+
+**Quick Start:** See `QUICK_START_DEPLOYMENT.md` for a step-by-step guide.
+
+#### Option 2: SFTP Deployment (More Secure)
+
+1. **Get SSH credentials from Hostinger:**
+   - Log into Hostinger control panel
+   - Go to **Advanced** → **SSH Access**
+   - Generate or use existing SSH key
+   - Note your SSH host, username, and port
+
+2. **Add GitHub Secrets:**
+   - Go to your GitHub repository
+   - Navigate to **Settings** → **Secrets and variables** → **Actions**
+   - Click **New repository secret** and add:
+     - `HOSTINGER_SSH_PRIVATE_KEY` - Your private SSH key (entire key including `-----BEGIN` and `-----END`)
+     - `HOSTINGER_SSH_HOST` - Your SSH host (e.g., `ssh.yourdomain.com`)
+     - `HOSTINGER_SSH_USER` - Your SSH username
+     - `HOSTINGER_SSH_PORT` - SSH port (usually `22`, optional)
+
+3. **Enable the workflow:**
+   - The workflow is in `.github/workflows/deploy-hostinger-sftp.yml`
+   - Rename or delete the FTP workflow if using SFTP
+
+### How It Works
+
+1. **On push to `main` branch:**
+   - GitHub Actions automatically triggers
+   - Installs Node.js dependencies
+   - Builds the frontend (`npm run build`)
+   - Deploys `frontend/dist/` to Hostinger's `public_html/`
+
+2. **Manual deployment:**
+   - Go to **Actions** tab in GitHub
+   - Select **Deploy to Hostinger**
+   - Click **Run workflow**
+
+### Workflow Features
+
+- ✅ Automatic builds on push to main
+- ✅ Manual deployment option
+- ✅ Only deploys built files (excludes node_modules, .git, etc.)
+- ✅ Preserves `.htaccess` file
+- ✅ Deployment status notifications
+
+## Manual Deployment (Alternative)
 
 ## Project Structure for Hostinger
 

@@ -120,9 +120,28 @@ The backend API is currently in development. See `backend/README.md` for more de
 
 ## Deployment
 
-### Hostinger Deployment
+### Automated Deployment via GitHub Actions 🚀
 
-This project is configured for deployment on Hostinger hosting. See `HOSTINGER_DEPLOYMENT.md` for detailed deployment instructions.
+This project includes **automated deployment** to Hostinger using GitHub Actions!
+
+**Features:**
+- ✅ Automatic deployment on push to `main` branch
+- ✅ Manual deployment option
+- ✅ FTP and SFTP support
+- ✅ Automatic builds and optimizations
+
+**Setup:**
+1. See `GITHUB_ACTIONS_SETUP.md` for complete setup instructions
+2. Add Hostinger credentials as GitHub Secrets
+3. Push to `main` branch - deployment happens automatically!
+
+**Workflows:**
+- `.github/workflows/deploy-hostinger.yml` - FTP deployment (currently active)
+- `.github/workflows/deploy-hostinger-sftp.yml` - SFTP deployment (available for future use)
+
+**Quick Start:** See `QUICK_START_DEPLOYMENT.md` for FTP setup instructions.
+
+### Manual Deployment
 
 **Quick deploy:**
 ```bash
@@ -136,6 +155,10 @@ This builds the frontend for production. Upload the contents of `frontend/dist/`
 **Requirements:**
 - Hostinger Business or Cloud hosting plan (for Node.js support)
 - Node.js enabled in Hostinger control panel (for backend)
+
+**Documentation:**
+- `HOSTINGER_DEPLOYMENT.md` - Manual deployment guide
+- `GITHUB_ACTIONS_SETUP.md` - Automated deployment setup
 
 See `HOSTINGER_DEPLOYMENT.md` for complete deployment guide.
 

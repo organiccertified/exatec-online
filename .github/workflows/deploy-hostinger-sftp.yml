@@ -1,0 +1,52 @@
+name: Deploy to Hostinger (SFTP)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+      
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: Deploy to Hostinger via SFTP
+        uses: easingthemes/ssh-deploy@v4.1.8
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.HOSTINGER_SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          REMOTE_USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          REMOTE_PORT: ${{ secrets.HOSTINGER_SSH_PORT || '22' }}
+          SOURCE: "frontend/dist/"
+          TARGET: "/public_html/"
+          EXCLUDE: "/.git*, /node_modules/, /.DS_Store"
+      
+      - name: Deployment Summary
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "🚀 Frontend deployed to Hostinger via SFTP"
+          echo "📁 Build directory: frontend/dist/"
+
