@@ -9,13 +9,19 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
   })
 
   return (
-    <header id="header-main" className="w-full bg-white shadow-md">
+    <header id="header-main" className="w-full bg-white shadow-md" role="banner">
       <div id="header-container" className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div id="header-dropdown-wrapper" className="relative">
           <button
             id="header-dropdown-button"
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 px-4 py-2 text-tec-blue hover:bg-gray-100 rounded-lg transition-colors"
+            onKeyDown={(e) => {
+              if (e.key === 'Escape' && isOpen) setIsOpen(false)
+            }}
+            aria-expanded={isOpen}
+            aria-haspopup="listbox"
+            aria-label="Select your Organization"
+            className="flex items-center gap-2 px-4 py-2 text-tec-blue hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
           >
             <span id="header-dropdown-label" className="font-medium">Select your Organization</span>
             <svg
@@ -24,6 +30,7 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
@@ -36,14 +43,21 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
                 className="fixed inset-0 z-10"
                 onClick={() => setIsOpen(false)}
               ></div>
-              <div id="header-dropdown-menu" className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-20 border border-gray-200">
+              <div 
+                id="header-dropdown-menu" 
+                className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-20 border border-gray-200"
+                role="listbox"
+                aria-label="Organization options"
+              >
                 <button
                   id="header-dropdown-option-dallas"
                   onClick={() => {
                     setSelectedOrg('Dallas')
                     setIsOpen(false)
                   }}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                  role="option"
+                  aria-selected={selectedOrg === 'Dallas'}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
                     selectedOrg === 'Dallas' ? 'bg-tec-blue text-white' : 'text-gray-700'
                   }`}
                 >
@@ -55,7 +69,9 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
                     setSelectedOrg('Chicago')
                     setIsOpen(false)
                   }}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                  role="option"
+                  aria-selected={selectedOrg === 'Chicago'}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
                     selectedOrg === 'Chicago' ? 'bg-tec-blue text-white' : 'text-gray-700'
                   }`}
                 >
@@ -67,7 +83,9 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
                     setSelectedOrg('San Antonio')
                     setIsOpen(false)
                   }}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                  role="option"
+                  aria-selected={selectedOrg === 'San Antonio'}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
                     selectedOrg === 'San Antonio' ? 'bg-tec-blue text-white' : 'text-gray-700'
                   }`}
                 >
@@ -79,7 +97,9 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
                     setSelectedOrg('Houston')
                     setIsOpen(false)
                   }}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors ${
+                  role="option"
+                  aria-selected={selectedOrg === 'Houston'}
+                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
                     selectedOrg === 'Houston' ? 'bg-tec-blue text-white' : 'text-gray-700'
                   }`}
                 >
@@ -92,7 +112,8 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
         <button
           id="header-sign-in-button"
           onClick={() => setShowSignIn(true)}
-          className="bg-tec-blue text-white px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
+          aria-label="Sign in to your account"
+          className="bg-tec-blue text-white px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
         >
           Sign in
         </button>
@@ -109,6 +130,9 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
               id="signin-popup-content"
               className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4 relative"
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="signin-popup-title"
             >
               <h2 id="signin-popup-title" className="text-2xl font-bold text-tec-blue text-center mb-2">
                 Sign in to Exatec.online
@@ -119,23 +143,29 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
               
               <form id="signin-form" className="space-y-4">
                 <div id="signin-email-field">
+                  <label htmlFor="signin-email-input" className="sr-only">Email Address</label>
                   <input
                     id="signin-email-input"
                     type="email"
                     placeholder="Email Address"
                     value={signInData.email}
                     onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
+                    aria-label="Email Address"
+                    aria-required="true"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
                     required
                   />
                 </div>
                 <div id="signin-password-field">
+                  <label htmlFor="signin-password-input" className="sr-only">Password</label>
                   <input
                     id="signin-password-input"
                     type="password"
                     placeholder="Password"
                     value={signInData.password}
                     onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
+                    aria-label="Password"
+                    aria-required="true"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
                     required
                   />

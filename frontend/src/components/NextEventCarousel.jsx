@@ -40,30 +40,45 @@ const NextEventCarousel = () => {
   }
 
   return (
-    <section id="next-event-section" className="py-12 bg-gray-50">
+    <section id="next-event-section" className="py-12 bg-gray-50" aria-labelledby="next-event-title">
       <div id="next-event-container" className="container mx-auto px-4">
         <h2 id="next-event-title" className="text-3xl font-bold text-tec-blue mb-8 text-center">Next Event</h2>
         <div id="next-event-carousel-wrapper" className="relative max-w-4xl mx-auto h-[600px]">
-          <div id="next-event-carousel-container" className="overflow-hidden rounded-lg shadow-xl h-full">
+          <div 
+            id="next-event-carousel-container" 
+            className="overflow-hidden rounded-lg shadow-xl h-full"
+            role="region"
+            aria-label="Upcoming events carousel"
+            aria-live="polite"
+          >
             <div
               id="next-event-carousel-track"
               className="flex transition-transform duration-500 ease-in-out h-full"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              role="list"
             >
-              {events.map((event) => (
-                <div key={event.id} id={`next-event-slide-${event.id}`} className="min-w-full flex-shrink-0 h-full">
+              {events.map((event, index) => (
+                <div 
+                  key={event.id} 
+                  id={`next-event-slide-${event.id}`} 
+                  className="min-w-full flex-shrink-0 h-full"
+                  role="listitem"
+                  aria-label={`Event ${index + 1} of ${events.length}: ${event.title}`}
+                >
                   <div id={`next-event-card-${event.id}`} className="bg-white rounded-lg overflow-hidden h-full">
                     <div id={`next-event-card-content-${event.id}`} className="md:flex h-full">
                       <div id={`next-event-image-wrapper-${event.id}`} className="md:w-1/2 h-full relative">
                         <img
                           id={`next-event-image-${event.id}`}
                           src={event.image}
-                          alt={event.title}
+                          alt={`${event.title} - ${event.description}`}
                           className="w-full h-full object-cover"
+                          loading={index === 0 ? "eager" : "lazy"}
                         />
                         <button
                           id={`next-event-register-button-${event.id}`}
-                          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-tec-blue text-white px-8 py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium shadow-lg"
+                          aria-label={`Register for ${event.title}`}
+                          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-tec-blue text-white px-8 py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
                         >
                           Register
                         </button>
@@ -72,7 +87,11 @@ const NextEventCarousel = () => {
                         <p id={`next-event-date-${event.id}`} className="text-tec-blue font-semibold mb-2">{event.date}</p>
                         <h3 id={`next-event-card-title-${event.id}`} className="text-2xl font-bold text-gray-800 mb-4">{event.title}</h3>
                         <p id={`next-event-description-${event.id}`} className="text-gray-600 mb-6">{event.description}</p>
-                        <button id={`next-event-learn-more-${event.id}`} className="bg-tec-blue text-white px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors w-fit">
+                        <button 
+                          id={`next-event-learn-more-${event.id}`} 
+                          aria-label={`Learn more about ${event.title}`}
+                          className="bg-tec-blue text-white px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors w-fit focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+                        >
                           Learn More
                         </button>
                       </div>
@@ -87,38 +106,49 @@ const NextEventCarousel = () => {
           <button
             id="next-event-prev-button"
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
-            aria-label="Previous slide"
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft') prevSlide()
+            }}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+            aria-label="Previous event"
+            aria-controls="next-event-carousel-track"
           >
-            <svg id="next-event-prev-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg id="next-event-prev-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             id="next-event-next-button"
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
-            aria-label="Next slide"
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight') nextSlide()
+            }}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
+            aria-label="Next event"
+            aria-controls="next-event-carousel-track"
           >
-            <svg id="next-event-next-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg id="next-event-next-icon" className="w-6 h-6 text-tec-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
 
-          {/* Dots Indicator */}
-          <div id="next-event-dots-container" className="flex justify-center mt-6 gap-2">
-            {events.map((_, index) => (
-              <button
-                key={index}
-                id={`next-event-dot-${index}`}
-                onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-tec-blue' : 'bg-gray-300'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+              {/* Dots Indicator */}
+              <div id="next-event-dots-container" className="flex justify-center mt-6 gap-2" role="tablist" aria-label="Event navigation">
+                {events.map((_, index) => (
+                  <button
+                    key={index}
+                    id={`next-event-dot-${index}`}
+                    onClick={() => goToSlide(index)}
+                    role="tab"
+                    aria-selected={index === currentIndex}
+                    aria-controls={`next-event-slide-${events[index].id}`}
+                    className={`w-3 h-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
+                      index === currentIndex ? 'bg-tec-blue' : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                    aria-label={`Go to event ${index + 1}: ${events[index].title}`}
+                  />
+                ))}
+              </div>
         </div>
       </div>
     </section>

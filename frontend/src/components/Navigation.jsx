@@ -5,24 +5,27 @@ const Navigation = ({ selectedOrg }) => {
   const location = useLocation()
 
   return (
-    <nav id="navigation-main" className="w-full border-b border-gray-200">
+    <nav id="navigation-main" className="w-full border-b border-gray-200" role="navigation" aria-label="Main navigation">
       <div id="navigation-container" className="container mx-auto px-4 py-4">
         <div id="navigation-header" className="text-center mb-6">
           <img 
             id="navigation-logo"
             src={exatecLogo} 
-            alt="EXATEC" 
+            alt="EXATEC - Tec de Monterrey Alumni Association" 
             className="mx-auto"
+            width="200"
+            height="auto"
           />
         </div>
-        <h2 id="navigation-organization-header" className="text-2xl font-bold text-tec-blue text-center mb-6">
+        <h1 id="navigation-organization-header" className="text-2xl font-bold text-tec-blue text-center mb-6">
           {selectedOrg}
-        </h2>
+        </h1>
         <div id="navigation-buttons" className="flex gap-4 justify-center">
           <Link
             id="navigation-home-button"
             to="/"
-            className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+            aria-current={location.pathname === '/' ? 'page' : undefined}
+            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
               location.pathname === '/' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
@@ -33,7 +36,8 @@ const Navigation = ({ selectedOrg }) => {
           <Link
             id="navigation-register-button"
             to="/register"
-            className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+            aria-current={location.pathname === '/register' ? 'page' : undefined}
+            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
               location.pathname === '/register' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
@@ -44,7 +48,8 @@ const Navigation = ({ selectedOrg }) => {
           <Link
             id="navigation-board-button"
             to="/board"
-            className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+            aria-current={location.pathname === '/board' ? 'page' : undefined}
+            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
               location.pathname === '/board' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
@@ -55,7 +60,8 @@ const Navigation = ({ selectedOrg }) => {
           <Link
             id="navigation-contact-button"
             to="/contact"
-            className={`px-6 py-2 rounded-lg transition-colors font-medium ${
+            aria-current={location.pathname === '/contact' ? 'page' : undefined}
+            className={`px-6 py-2 rounded-lg transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 ${
               location.pathname === '/contact' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white'
