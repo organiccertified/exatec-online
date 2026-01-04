@@ -101,31 +101,45 @@ After deployment, verify:
 
 ## 🐛 Troubleshooting
 
-### Build Fails
+**Quick Help:**
+- See `QUICK_TROUBLESHOOTING.md` for fast solutions
+- See `TROUBLESHOOTING_DEPLOYMENT.md` for detailed guide
+
+### Common Issues
+
+**Build Fails:**
 - Check Node.js version compatibility
 - Verify all dependencies are in `package.json`
 - Review build logs in GitHub Actions
+- Test build locally: `cd frontend && npm run build`
 
-### FTP Connection Fails
-- Verify FTP credentials are correct
+**FTP Connection Fails:**
+- Verify FTP credentials are correct in GitHub Secrets
 - Check FTP server address
 - Ensure FTP is enabled on Hostinger
 - Try using IP address instead of domain
+- Test FTP connection manually with FileZilla
 
-### Files Not Deploying
+**Files Not Deploying:**
 - Check workflow logs for errors
 - Verify `frontend/dist/` exists after build
 - Ensure `.htaccess` is in `frontend/public/`
+- Check GitHub Secrets are set correctly
 
-### 404 Errors on Refresh
+**404 Errors on Refresh:**
 - Verify `.htaccess` is in `public_html/`
 - Check that mod_rewrite is enabled on Hostinger
 - Verify file permissions (644 for files, 755 for directories)
 
-### Styles/Images Not Loading
+**Styles/Images Not Loading:**
 - Check file paths are relative (base: './' in vite.config.js)
 - Verify assets are in `dist/assets/`
 - Clear browser cache
+
+**Workflow Didn't Run:**
+- Check you pushed to `main` branch
+- Verify workflow file exists: `.github/workflows/deploy-hostinger.yml`
+- Manually trigger: Actions → Deploy to Hostinger → Run workflow
 
 ## 📋 Quick Commands
 

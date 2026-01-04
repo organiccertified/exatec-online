@@ -141,6 +141,8 @@ This project includes **automated deployment** to Hostinger using GitHub Actions
 
 **Quick Start:** See `QUICK_START_DEPLOYMENT.md` for FTP setup instructions.
 
+**Troubleshooting:** See `TROUBLESHOOTING_DEPLOYMENT.md` if deployment didn't happen or failed.
+
 ### Manual Deployment
 
 **Quick deploy:**
