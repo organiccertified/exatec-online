@@ -81,6 +81,12 @@ const Contact = () => {
               required
             />
           </div>
+          
+          {/* Privacy Notice */}
+          <div id="contact-privacy-note" className="text-sm text-gray-600 italic mb-4 text-center">
+            Note: We collect and store personal information submitted through this form.
+          </div>
+          
           <div id="contact-button-container" className="flex justify-center">
             <button
               id="contact-send-button"

@@ -1,7 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const PastEventsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [containerWidth, setContainerWidth] = useState(0)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth)
+      }
+    }
+
+    updateWidth()
+    window.addEventListener('resize', updateWidth)
+    return () => window.removeEventListener('resize', updateWidth)
+  }, [])
 
   const pastEvents = [
     {
@@ -61,11 +75,19 @@ const PastEventsCarousel = () => {
       <div id="past-events-container" className="container mx-auto px-3 sm:px-4">
         <h2 id="past-events-title" className="text-2xl sm:text-3xl font-bold text-tec-blue mb-4 sm:mb-8 text-center">Past Events</h2>
         <div id="past-events-carousel-wrapper" className="relative max-w-6xl mx-auto">
-          <div id="past-events-carousel-container" className="overflow-hidden rounded-lg">
+          <div 
+            id="past-events-carousel-container" 
+            ref={containerRef}
+            className="overflow-hidden rounded-lg"
+          >
             <div
               id="past-events-carousel-track"
               className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              style={{ 
+                transform: containerWidth > 0
+                  ? `translateX(-${currentIndex * containerWidth}px)`
+                  : `translateX(-${currentIndex * 100}%)`
+              }}
             >
               {pastEvents.map((event) => (
                 <div key={event.id} id={`past-events-slide-${event.id}`} className="min-w-full flex-shrink-0 px-1 sm:px-2">
@@ -110,7 +132,7 @@ const PastEventsCarousel = () => {
           </button>
 
           {/* Dots Indicator */}
-          <div id="past-events-dots-container" className="flex justify-center mt-6 gap-2">
+          <div id="past-events-dots-container" className="hidden sm:flex justify-center mt-6 gap-2">
             {pastEvents.map((_, index) => (
               <button
                 key={index}

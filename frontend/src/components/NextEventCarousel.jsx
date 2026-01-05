@@ -1,7 +1,54 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const NextEventCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [containerWidth, setContainerWidth] = useState(0)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        // Get the actual visible width of the container
+        setContainerWidth(containerRef.current.offsetWidth)
+      }
+    }
+
+    // Initial calculation with a small delay to ensure DOM is ready
+    const timeoutId = setTimeout(updateWidth, 10)
+    
+    // Update on resize
+    window.addEventListener('resize', updateWidth)
+    
+    // Update on orientation change for mobile devices (with delay for layout recalculation)
+    const handleOrientationChange = () => {
+      setTimeout(updateWidth, 150)
+    }
+    window.addEventListener('orientationchange', handleOrientationChange)
+    
+    // Use ResizeObserver for more accurate width tracking, especially on mobile
+    let resizeObserver = null
+    const setupObserver = () => {
+      if (containerRef.current && window.ResizeObserver) {
+        resizeObserver = new ResizeObserver(() => {
+          updateWidth()
+        })
+        resizeObserver.observe(containerRef.current)
+      }
+    }
+    
+    // Setup observer after a short delay to ensure ref is set
+    const observerTimeout = setTimeout(setupObserver, 50)
+    
+    return () => {
+      clearTimeout(timeoutId)
+      clearTimeout(observerTimeout)
+      window.removeEventListener('resize', updateWidth)
+      window.removeEventListener('orientationchange', handleOrientationChange)
+      if (resizeObserver && containerRef.current) {
+        resizeObserver.unobserve(containerRef.current)
+      }
+    }
+  }, [])
 
   const events = [
     {
@@ -41,31 +88,36 @@ const NextEventCarousel = () => {
 
   return (
     <section id="next-event-section" className="py-6 sm:py-12 pb-12 sm:pb-12 bg-gray-50" aria-labelledby="next-event-title">
-      <div id="next-event-container" className="container mx-auto px-3 sm:px-4">
-        <h2 id="next-event-title" className="text-2xl sm:text-3xl font-bold text-tec-blue mb-4 sm:mb-8 text-center">Next Event</h2>
-        <div id="next-event-carousel-wrapper" className="relative max-w-4xl mx-auto h-[500px] sm:h-[600px]">
+      <div id="next-event-container" className="container mx-auto px-0 sm:px-4">
+        <h2 id="next-event-title" className="text-2xl sm:text-3xl font-bold text-tec-blue mb-4 sm:mb-8 text-center px-3 sm:px-0">Next Events</h2>
+        <div id="next-event-carousel-wrapper" className="relative w-full sm:max-w-4xl sm:mx-auto h-[500px] sm:h-[600px]">
           <div 
             id="next-event-carousel-container" 
-            className="overflow-hidden rounded-lg shadow-xl h-full"
+            ref={containerRef}
+            className="overflow-hidden rounded-none sm:rounded-lg shadow-xl h-full w-full"
             role="region"
             aria-label="Upcoming events carousel"
             aria-live="polite"
           >
             <div
               id="next-event-carousel-track"
-              className="flex transition-transform duration-500 ease-in-out h-full"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              className="flex transition-transform duration-500 ease-in-out h-full w-full"
+              style={{ 
+                transform: containerWidth > 0
+                  ? `translateX(-${currentIndex * containerWidth}px)`
+                  : `translateX(-${currentIndex * 100}%)`
+              }}
               role="list"
             >
               {events.map((event, index) => (
                 <div 
                   key={event.id} 
                   id={`next-event-slide-${event.id}`} 
-                  className="min-w-full flex-shrink-0 h-full"
+                  className="min-w-full w-full flex-shrink-0 h-full"
                   role="listitem"
                   aria-label={`Event ${index + 1} of ${events.length}: ${event.title}`}
                 >
-                  <div id={`next-event-card-${event.id}`} className="bg-white rounded-lg overflow-hidden h-full">
+                  <div id={`next-event-card-${event.id}`} className="bg-white rounded-none sm:rounded-lg overflow-hidden h-full w-full">
                     <div id={`next-event-card-content-${event.id}`} className="flex flex-col md:flex-row h-full">
                       <div id={`next-event-image-wrapper-${event.id}`} className="w-full md:w-1/2 h-1/2 md:h-full relative">
                         <img
@@ -133,7 +185,7 @@ const NextEventCarousel = () => {
           </button>
 
               {/* Dots Indicator */}
-              <div id="next-event-dots-container" className="flex justify-center mt-3 gap-2" role="tablist" aria-label="Event navigation">
+              <div id="next-event-dots-container" className="hidden sm:flex justify-center mt-3 gap-2" role="tablist" aria-label="Event navigation">
                 {events.map((_, index) => (
                   <button
                     key={index}

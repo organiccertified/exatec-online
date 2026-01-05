@@ -1,16 +1,29 @@
 import { useState } from 'react'
 
-const Header = ({ selectedOrg, setSelectedOrg }) => {
+const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSignedIn, setIsSignedIn }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [showSignIn, setShowSignIn] = useState(false)
+  const [showSignUp, setShowSignUp] = useState(false)
   const [signInData, setSignInData] = useState({
     email: '',
     password: ''
   })
+  const [signUpData, setSignUpData] = useState({
+    association: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    campus: '',
+    degree: '',
+    graduationYear: ''
+  })
 
   return (
     <header id="header-main" className="w-full bg-white shadow-md" role="banner">
-      <div id="header-container" className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+      <div 
+        id="header-container" 
+        className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 hidden sm:flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 transition-transform duration-300"
+      >
         <div id="header-dropdown-wrapper" className="relative w-full sm:w-auto">
           <button
             id="header-dropdown-button"
@@ -138,10 +151,35 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
                 Sign in to Exatec.online
               </h2>
               <p id="signin-popup-signup-text" className="text-center text-gray-600 mb-6">
-                Don't have an account? <span id="signin-popup-signup-link" className="text-tec-blue hover:underline cursor-pointer">Sign up</span>
+                Don't have an account? <span 
+                  id="signin-popup-signup-link" 
+                  className="text-tec-blue hover:underline cursor-pointer"
+                  onClick={() => {
+                    setShowSignIn(false)
+                    setShowSignUp(true)
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setShowSignIn(false)
+                      setShowSignUp(true)
+                    }
+                  }}
+                >Sign up</span>
               </p>
               
-              <form id="signin-form" className="space-y-4">
+              <form 
+                id="signin-form" 
+                className="space-y-4"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  // Handle sign-in logic here
+                  // For now, just set signed in state
+                  setIsSignedIn(true)
+                  setShowSignIn(false)
+                }}
+              >
                 <div id="signin-email-field">
                   <label htmlFor="signin-email-input" className="sr-only">Email Address</label>
                   <input
@@ -225,6 +263,200 @@ const Header = ({ selectedOrg, setSelectedOrg }) => {
                 aria-label="Close"
               >
                 <svg id="signin-close-icon" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Sign Up Modal */}
+      {showSignUp && (
+        <>
+          <div
+            id="signup-popup-overlay"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            onClick={() => setShowSignUp(false)}
+          >
+            <div
+              id="signup-popup-content"
+              className="bg-white rounded-lg shadow-xl p-4 sm:p-8 max-w-2xl w-full mx-4 relative max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="signup-popup-title"
+            >
+              <h2 id="signup-popup-title" className="text-2xl font-bold text-tec-blue text-center mb-6">
+                Sign Up
+              </h2>
+              
+              <form 
+                id="signup-form" 
+                className="space-y-4"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  // Handle sign-up logic here
+                  console.log('Sign up data:', signUpData)
+                  // Close modal after submission
+                  setShowSignUp(false)
+                }}
+              >
+                {/* Association Dropdown */}
+                <div id="signup-association-field">
+                  <label htmlFor="signup-association-input" className="sr-only">Association you want to register to</label>
+                  <select
+                    id="signup-association-input"
+                    value={signUpData.association}
+                    onChange={(e) => setSignUpData({ ...signUpData, association: e.target.value })}
+                    aria-label="Association you want to register to"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  >
+                    <option value="">Association you want to register to:</option>
+                    <option value="Dallas">Dallas</option>
+                    <option value="New York">New York</option>
+                    <option value="Chicago">Chicago</option>
+                  </select>
+                </div>
+
+                {/* First Name */}
+                <div id="signup-firstname-field">
+                  <label htmlFor="signup-firstname-input" className="sr-only">First Name</label>
+                  <input
+                    id="signup-firstname-input"
+                    type="text"
+                    placeholder="First Name:"
+                    value={signUpData.firstName}
+                    onChange={(e) => setSignUpData({ ...signUpData, firstName: e.target.value })}
+                    aria-label="First Name"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+
+                {/* Last Name */}
+                <div id="signup-lastname-field">
+                  <label htmlFor="signup-lastname-input" className="sr-only">Last Name</label>
+                  <input
+                    id="signup-lastname-input"
+                    type="text"
+                    placeholder="Last Name:"
+                    value={signUpData.lastName}
+                    onChange={(e) => setSignUpData({ ...signUpData, lastName: e.target.value })}
+                    aria-label="Last Name"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+
+                {/* Email */}
+                <div id="signup-email-field">
+                  <label htmlFor="signup-email-input" className="sr-only">Email</label>
+                  <input
+                    id="signup-email-input"
+                    type="email"
+                    placeholder="Email:"
+                    value={signUpData.email}
+                    onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                    aria-label="Email"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+
+                {/* Phone */}
+                <div id="signup-phone-field">
+                  <label htmlFor="signup-phone-input" className="sr-only">Phone</label>
+                  <input
+                    id="signup-phone-input"
+                    type="tel"
+                    placeholder="Phone:"
+                    value={signUpData.phone}
+                    onChange={(e) => setSignUpData({ ...signUpData, phone: e.target.value })}
+                    aria-label="Phone"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+
+                {/* Campus */}
+                <div id="signup-campus-field">
+                  <label htmlFor="signup-campus-input" className="sr-only">Campus</label>
+                  <input
+                    id="signup-campus-input"
+                    type="text"
+                    placeholder="Campus:"
+                    value={signUpData.campus}
+                    onChange={(e) => setSignUpData({ ...signUpData, campus: e.target.value })}
+                    aria-label="Campus"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+
+                {/* Degree */}
+                <div id="signup-degree-field">
+                  <label htmlFor="signup-degree-input" className="sr-only">Degree</label>
+                  <input
+                    id="signup-degree-input"
+                    type="text"
+                    placeholder="Degree:"
+                    value={signUpData.degree}
+                    onChange={(e) => setSignUpData({ ...signUpData, degree: e.target.value })}
+                    aria-label="Degree"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+
+                {/* Graduation Year */}
+                <div id="signup-graduation-year-field">
+                  <label htmlFor="signup-graduation-year-input" className="sr-only">Graduation Year</label>
+                  <input
+                    id="signup-graduation-year-input"
+                    type="number"
+                    min="1950"
+                    max="2099"
+                    placeholder="Graduation Year:"
+                    value={signUpData.graduationYear}
+                    onChange={(e) => setSignUpData({ ...signUpData, graduationYear: e.target.value })}
+                    aria-label="Graduation Year"
+                    aria-required="true"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    required
+                  />
+                </div>
+
+                {/* Data Collection Note */}
+                <div id="signup-privacy-note" className="text-sm text-gray-600 italic mb-4">
+                  Note: We collect and store personal information submitted through this form.
+                </div>
+
+                {/* Register Button */}
+                <button
+                  id="signup-register-button"
+                  type="submit"
+                  className="w-full bg-tec-blue text-white px-4 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
+                >
+                  Register
+                </button>
+              </form>
+
+              <button
+                id="signup-popup-close-button"
+                onClick={() => setShowSignUp(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="Close"
+              >
+                <svg id="signup-close-icon" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
