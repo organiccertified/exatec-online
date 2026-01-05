@@ -1,0 +1,5 @@
+# ads.txt file for exatec.online
+# This file is used to declare authorized digital sellers for advertising inventory
+
+google.com, pub-6830624534516364, DIRECT, f08c47fec0942fa0
+
