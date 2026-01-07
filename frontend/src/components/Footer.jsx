@@ -62,6 +62,17 @@ const Footer = ({ isSignedIn, setShowSignIn }) => {
               Contact
             </Link>
             <Link
+              id="footer-about-link"
+              to="/about"
+              className={`text-sm sm:text-base hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-tec-blue rounded px-2 py-1 transition-all ${
+                location.pathname === '/about' ? 'font-semibold underline' : ''
+              }`}
+              aria-label="About Us"
+              aria-current={location.pathname === '/about' ? 'page' : undefined}
+            >
+              About Us
+            </Link>
+            <Link
               id="footer-privacy-policy-link"
               to="/privacy-policy"
               className={`text-sm sm:text-base hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-tec-blue rounded px-2 py-1 transition-all ${
@@ -76,19 +87,19 @@ const Footer = ({ isSignedIn, setShowSignIn }) => {
           
           {/* Bottom Section */}
           <div id="footer-bottom" className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 pt-2 border-t border-tec-blue-light">
-            <div id="footer-version" className="text-xs sm:text-sm text-center sm:text-left">
+            <div id="footer-version" className="text-xs sm:text-sm text-center sm:text-left leading-normal">
               Version 1.0.0
             </div>
-            <div id="footer-links" className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <div id="footer-links" className="flex flex-row items-center justify-center sm:justify-end gap-2 sm:gap-4 leading-normal">
               <Link
                 id="footer-add-association-link"
                 to="/contact"
-                className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-tec-blue rounded px-2 py-1 transition-all"
-                aria-label="Add your Exatec Association - Contact us"
+                className="text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-tec-blue rounded px-2 py-1 transition-all inline-flex items-center"
+                aria-label="Add your association - Contact us"
               >
-                Add your Exatec Association
+                Add your association
               </Link>
-              <div id="footer-credit" className="text-sm">
+              <div id="footer-credit" className="text-sm inline-flex items-center">
                 Created by Integra Sites
               </div>
             </div>

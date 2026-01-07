@@ -6,16 +6,29 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOrgDropdownOpen, setIsOrgDropdownOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
       // Close menu when scrolling
       setIsMenuOpen(false)
+      setIsUserMenuOpen(false)
+    }
+
+    const handleClickOutside = (event) => {
+      // Close user menu if clicking outside
+      if (isUserMenuOpen && !event.target.closest('#navigation-user-menu-container')) {
+        setIsUserMenuOpen(false)
+      }
     }
 
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [isUserMenuOpen])
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -65,21 +78,76 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
             />
           </div>
 
-          {/* Sign In / Log Out Button - Right */}
-          <button
-            id="navigation-sticky-city"
-            onClick={() => {
-              if (isSignedIn) {
-                onSignOut()
-              } else {
+          {/* Sign In / User Menu - Right */}
+          {isSignedIn ? (
+            <div id="navigation-user-menu-container" className="relative">
+              <button
+                id="navigation-sticky-user-icon"
+                onClick={() => {
+                  setIsUserMenuOpen(!isUserMenuOpen)
+                  closeMenu() // Close hamburger menu if open
+                }}
+                className="p-2 text-tec-blue hover:text-tec-blue-dark transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 rounded-lg"
+                aria-label="User menu"
+                aria-expanded={isUserMenuOpen}
+              >
+                <svg
+                  id="navigation-user-icon-svg"
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </button>
+              
+              {/* User Menu Dropdown */}
+              {isUserMenuOpen && (
+                <div
+                  id="navigation-user-menu-dropdown"
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200"
+                  role="menu"
+                  aria-orientation="vertical"
+                >
+                  <Link
+                    to="/profile"
+                    onClick={() => {
+                      setIsUserMenuOpen(false)
+                      closeMenu()
+                    }}
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-tec-blue hover:text-white transition-colors first:rounded-t-lg"
+                    role="menuitem"
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setIsUserMenuOpen(false)
+                      onSignOut()
+                    }}
+                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-tec-blue hover:text-white transition-colors last:rounded-b-lg"
+                    role="menuitem"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              id="navigation-sticky-signin-button"
+              onClick={() => {
                 onSignInClick()
-              }
-            }}
-            className="text-sm font-semibold text-tec-blue hover:text-tec-blue-dark transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 rounded px-2 py-1"
-            aria-label={isSignedIn ? "Sign out" : "Sign in"}
-          >
-            {isSignedIn ? 'Log out' : 'Sign in'}
-          </button>
+                closeMenu()
+              }}
+              className="text-sm font-semibold text-tec-blue hover:text-tec-blue-dark transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 rounded px-2 py-1"
+              aria-label="Sign in"
+            >
+              Sign in
+            </button>
+          )}
         </div>
 
         {/* Hamburger Menu Dropdown */}
@@ -151,17 +219,42 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
                 >
                   Contact
                 </Link>
-                <button
-                  onClick={() => {
-                    closeMenu()
-                    if (onSignInClick) {
-                      onSignInClick()
-                    }
-                  }}
-                  className="px-6 py-4 text-base font-semibold text-tec-blue hover:bg-gray-50 transition-colors text-left border-t border-gray-200"
+                <Link
+                  to="/about"
+                  onClick={closeMenu}
+                  className={`px-6 py-4 text-base font-semibold border-b border-gray-100 transition-colors ${
+                    location.pathname === '/about' 
+                      ? 'bg-tec-blue text-white' 
+                      : 'text-tec-blue hover:bg-gray-50'
+                  }`}
                 >
-                  Sign in
-                </button>
+                  About Us
+                </Link>
+                {isSignedIn ? (
+                  <Link
+                    to="/profile"
+                    onClick={closeMenu}
+                    className={`px-6 py-4 text-base font-semibold border-b border-gray-100 transition-colors ${
+                      location.pathname === '/profile' 
+                        ? 'bg-tec-blue text-white' 
+                        : 'text-tec-blue hover:bg-gray-50'
+                    }`}
+                  >
+                    Profile
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => {
+                      closeMenu()
+                      if (onSignInClick) {
+                        onSignInClick()
+                      }
+                    }}
+                    className="px-6 py-4 text-base font-semibold text-tec-blue hover:bg-gray-50 transition-colors text-left border-t border-gray-200"
+                  >
+                    Sign in
+                  </button>
+                )}
               </nav>
             </div>
           </>
@@ -169,8 +262,9 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
       </div>
 
       {/* Regular Navigation */}
-      <nav id="navigation-main" className="w-full border-b border-gray-200" role="navigation" aria-label="Main navigation">
-      <div id="navigation-container" className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
+      {location.pathname !== '/contact' && location.pathname !== '/profile' && (
+        <nav id="navigation-main" className="w-full border-b border-gray-200" role="navigation" aria-label="Main navigation">
+        <div id="navigation-container" className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
         <div id="navigation-header" className="text-center mb-4 sm:mb-6">
           <img 
             id="navigation-logo"
@@ -181,7 +275,7 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
             height="auto"
           />
         </div>
-        <div id="navigation-organization-wrapper" className="relative flex justify-center mb-4 sm:mb-6 mt-16 sm:mt-0">
+        <div id="navigation-organization-wrapper" className="relative flex justify-center mb-4 sm:mb-6 mt-8 sm:mt-0">
           <button
             id="navigation-organization-header"
             onClick={() => setIsOrgDropdownOpen(!isOrgDropdownOpen)}
@@ -191,7 +285,7 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
             aria-expanded={isOrgDropdownOpen}
             aria-haspopup="listbox"
             aria-label="Select Organization"
-            className="text-xl sm:text-2xl md:text-3xl font-bold text-tec-blue text-center hover:text-tec-blue-dark transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 rounded-lg px-2 py-1 flex items-center gap-2"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-tec-blue text-center hover:text-tec-blue-dark transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 rounded-lg px-2 py-1 flex items-center gap-2"
           >
             <span>{selectedOrg}</span>
             <svg
@@ -383,6 +477,18 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
           >
             Contact
           </Link>
+          <Link
+            id="navigation-about-button"
+            to="/about"
+            aria-current={location.pathname === '/about' ? 'page' : undefined}
+            className={`flex-1 sm:flex-none px-6 sm:px-5 md:px-6 py-4 sm:py-2 text-base sm:text-base rounded-lg transition-all font-semibold text-center focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 min-h-[56px] sm:min-h-[44px] flex items-center justify-center active:scale-95 touch-manipulation ${
+              location.pathname === '/about' 
+                ? 'bg-tec-blue text-white hover:bg-tec-blue-dark shadow-md' 
+                : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white shadow-sm active:shadow-md'
+            }`}
+          >
+            About Us
+          </Link>
           <div id="navigation-social-icons" className="flex gap-3 sm:gap-3 items-center justify-center w-full sm:w-auto sm:ml-4 mt-2 sm:mt-0">
             <a
               id="navigation-facebook-icon"
@@ -442,6 +548,7 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
         </div>
       </div>
     </nav>
+      )}
     </>
   )
 }

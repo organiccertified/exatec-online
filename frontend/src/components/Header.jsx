@@ -1,8 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSignedIn, setIsSignedIn }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [showSignUp, setShowSignUp] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Close user menu if clicking outside
+      if (isUserMenuOpen && !event.target.closest('#header-user-menu-container')) {
+        setIsUserMenuOpen(false)
+      }
+    }
+
+    if (isUserMenuOpen) {
+      document.addEventListener('click', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [isUserMenuOpen])
   const [signInData, setSignInData] = useState({
     email: '',
     password: ''
@@ -122,14 +141,73 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
             </>
           )}
         </div>
-        <button
-          id="header-sign-in-button"
-          onClick={() => setShowSignIn(true)}
-          aria-label="Sign in to your account"
-          className="bg-tec-blue text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 w-full sm:w-auto"
-        >
-          Sign in
-        </button>
+        {isSignedIn ? (
+          <div id="header-user-menu-container" className="relative">
+            <button
+              id="header-user-icon-button"
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              className="p-2 text-tec-blue hover:text-tec-blue-dark transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 rounded-lg"
+              aria-label="User menu"
+              aria-expanded={isUserMenuOpen}
+            >
+              <svg
+                id="header-user-icon-svg"
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </button>
+            
+            {/* User Menu Dropdown */}
+            {isUserMenuOpen && (
+              <>
+                <div
+                  id="header-user-menu-overlay"
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsUserMenuOpen(false)}
+                />
+                <div
+                  id="header-user-menu-dropdown"
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200"
+                  role="menu"
+                  aria-orientation="vertical"
+                >
+                  <Link
+                    to="/profile"
+                    onClick={() => setIsUserMenuOpen(false)}
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-tec-blue hover:text-white transition-colors first:rounded-t-lg"
+                    role="menuitem"
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setIsUserMenuOpen(false)
+                      setIsSignedIn(false)
+                    }}
+                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-tec-blue hover:text-white transition-colors last:rounded-b-lg"
+                    role="menuitem"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        ) : (
+          <button
+            id="header-sign-in-button"
+            onClick={() => setShowSignIn(true)}
+            aria-label="Sign in to your account"
+            className="bg-tec-blue text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 w-full sm:w-auto"
+          >
+            Sign in
+          </button>
+        )}
       </div>
 
       {showSignIn && (

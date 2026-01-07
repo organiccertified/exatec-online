@@ -6,6 +6,8 @@ import Home from './components/Home'
 import Board from './components/Board'
 import Register from './components/Register'
 import Contact from './components/Contact'
+import About from './components/About'
+import Profile from './components/Profile'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Footer from './components/Footer'
 import CookieNotice from './components/CookieNotice'
@@ -26,6 +28,8 @@ function App() {
             <Route path="/register" element={<Register selectedOrg={selectedOrg} isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />} />
             <Route path="/board" element={<Board isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About selectedOrg={selectedOrg} />} />
+            <Route path="/profile" element={<Profile isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
         </main>
