@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 
-const NextEventCarousel = () => {
+const NextEventCarousel = ({ isSignedIn, setShowSignIn }) => {
+  const [showRegistrationSuccess, setShowRegistrationSuccess] = useState(false)
+  const [registeredEventTitle, setRegisteredEventTitle] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
   const [containerWidth, setContainerWidth] = useState(0)
   const containerRef = useRef(null)
@@ -129,6 +131,17 @@ const NextEventCarousel = () => {
                         />
                         <button
                           id={`next-event-register-button-${event.id}`}
+                          onClick={() => {
+                            if (isSignedIn) {
+                              // User is signed in, proceed with registration
+                              setRegisteredEventTitle(event.title)
+                              setShowRegistrationSuccess(true)
+                              setTimeout(() => setShowRegistrationSuccess(false), 3000)
+                            } else {
+                              // User is not signed in, show sign-in modal
+                              setShowSignIn(true)
+                            }
+                          }}
                           aria-label={`Register for ${event.title}`}
                           className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-tec-blue text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-sm sm:text-base shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
                         >
@@ -203,6 +216,38 @@ const NextEventCarousel = () => {
               </div>
         </div>
       </div>
+      
+      {/* Registration Success Message */}
+      {showRegistrationSuccess && (
+        <div
+          id="next-event-registration-success-popup"
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowRegistrationSuccess(false)}
+        >
+          <div
+            id="next-event-registration-success-content"
+            className="bg-white rounded-lg shadow-xl p-6 sm:p-8 max-w-md w-full mx-4 relative"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="next-event-registration-success-title"
+          >
+            <h2 id="next-event-registration-success-title" className="text-2xl font-bold text-tec-blue text-center mb-4">
+              Registration Successful!
+            </h2>
+            <p id="next-event-registration-success-message" className="text-gray-700 text-center mb-6">
+              You have been successfully registered for <strong>{registeredEventTitle}</strong>.
+            </p>
+            <button
+              id="next-event-registration-success-close-button"
+              onClick={() => setShowRegistrationSuccess(false)}
+              className="w-full bg-tec-blue text-white px-4 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

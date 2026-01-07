@@ -19,17 +19,17 @@ function App() {
     <Router>
       <div id="app-container" className="min-h-screen flex flex-col">
         <Header selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} showSignIn={showSignIn} setShowSignIn={setShowSignIn} isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
-        <Navigation selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} onSignInClick={() => setShowSignIn(true)} isSignedIn={isSignedIn} onSignOut={() => setIsSignedIn(false)} />
+        <Navigation selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} onSignInClick={() => setShowSignIn(true)} isSignedIn={isSignedIn} onSignOut={() => setIsSignedIn(false)} setShowSignIn={setShowSignIn} />
         <main id="app-main" className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home selectedOrg={selectedOrg} />} />
-            <Route path="/register" element={<Register selectedOrg={selectedOrg} />} />
-            <Route path="/board" element={<Board />} />
+            <Route path="/" element={<Home selectedOrg={selectedOrg} isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />} />
+            <Route path="/register" element={<Register selectedOrg={selectedOrg} isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />} />
+            <Route path="/board" element={<Board isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
         </main>
-        <Footer />
+        <Footer isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />
         <CookieNotice />
       </div>
     </Router>

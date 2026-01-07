@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import exatecLogo from '../pictures/exatec-blue-med.png'
 
-const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, onSignOut }) => {
+const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, onSignOut, setShowSignIn }) => {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOrgDropdownOpen, setIsOrgDropdownOpen] = useState(false)
@@ -121,7 +121,17 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
                 </Link>
                 <Link
                   to="/board"
-                  onClick={closeMenu}
+                  onClick={(e) => {
+                    if (!isSignedIn) {
+                      e.preventDefault()
+                      closeMenu()
+                      if (setShowSignIn) {
+                        setShowSignIn(true)
+                      }
+                    } else {
+                      closeMenu()
+                    }
+                  }}
                   className={`px-6 py-4 text-base font-semibold border-b border-gray-100 transition-colors ${
                     location.pathname === '/board' 
                       ? 'bg-tec-blue text-white' 
@@ -344,6 +354,14 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
           <Link
             id="navigation-board-button"
             to="/board"
+            onClick={(e) => {
+              if (!isSignedIn) {
+                e.preventDefault()
+                if (setShowSignIn) {
+                  setShowSignIn(true)
+                }
+              }
+            }}
             aria-current={location.pathname === '/board' ? 'page' : undefined}
             className={`flex-1 sm:flex-none px-6 sm:px-5 md:px-6 py-4 sm:py-2 text-base sm:text-base rounded-lg transition-all font-semibold text-center focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 min-h-[56px] sm:min-h-[44px] flex items-center justify-center active:scale-95 touch-manipulation ${
               location.pathname === '/board' 

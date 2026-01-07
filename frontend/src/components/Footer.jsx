@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 
-const Footer = () => {
+const Footer = ({ isSignedIn, setShowSignIn }) => {
   const location = useLocation()
 
   return (
@@ -34,6 +34,14 @@ const Footer = () => {
             <Link
               id="footer-board-link"
               to="/board"
+              onClick={(e) => {
+                if (!isSignedIn) {
+                  e.preventDefault()
+                  if (setShowSignIn) {
+                    setShowSignIn(true)
+                  }
+                }
+              }}
               className={`text-sm sm:text-base hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-tec-blue rounded px-2 py-1 transition-all ${
                 location.pathname === '/board' ? 'font-semibold underline' : ''
               }`}

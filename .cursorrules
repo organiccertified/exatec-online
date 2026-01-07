@@ -1,0 +1,19 @@
+# Cursor Rules for Amigos Exatec Project
+
+## Project Context
+This is a React + Vite frontend application for Tec de Monterrey Alumni Association, deployed to Hostinger.
+
+## Hostinger MCP Configuration
+The Hostinger MCP server is configured in Cursor settings (not in this file).
+API Token: Configured in Cursor user settings under `mcpServers.hostinger-mcp.env.API_TOKEN`
+
+## Important Notes
+- Never commit API tokens or sensitive credentials to version control
+- The MCP server configuration is stored in Cursor's user settings, not in project files
+- See HOSTINGER_MCP_SETUP.md for setup instructions
+
+## Deployment
+- Frontend builds to `frontend/dist/`
+- Deploy using GitHub Actions (configured) or Hostinger MCP
+- See HOSTINGER_DEPLOYMENT.md for details
+

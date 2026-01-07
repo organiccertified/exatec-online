@@ -26,6 +26,11 @@ frontend/dist-ssr/
 backend/.env
 backend/.env.local
 
+# MCP and API tokens (never commit these)
+*.mcp.json
+mcp-config.json
+hostinger-token.txt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

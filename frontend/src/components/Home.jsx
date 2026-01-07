@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import NextEventCarousel from './NextEventCarousel'
 import PastEventsCarousel from './PastEventsCarousel'
 
-const Home = ({ selectedOrg }) => {
+const Home = ({ selectedOrg, isSignedIn, setShowSignIn }) => {
+  const [showRegistrationSuccess, setShowRegistrationSuccess] = useState(false)
   return (
     <>
       {/* Welcome Description */}
@@ -48,14 +49,23 @@ const Home = ({ selectedOrg }) => {
                   Join us for an evening of networking and connections with fellow alumni. This is a special opportunity to reconnect with old friends, meet new members, and strengthen our Exatec community bonds.
                 </p>
                 <div id="featured-event-button-container" className="mt-auto">
-                  <Link
+                  <button
                     id="featured-event-register-button"
-                    to="/register"
+                    onClick={() => {
+                      if (isSignedIn) {
+                        // User is signed in, proceed with registration
+                        setShowRegistrationSuccess(true)
+                        setTimeout(() => setShowRegistrationSuccess(false), 3000)
+                      } else {
+                        // User is not signed in, show sign-in modal
+                        setShowSignIn(true)
+                      }
+                    }}
                     className="inline-block bg-tec-blue text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium text-base sm:text-lg text-center w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2"
                     aria-label="Register for this event"
                   >
                     Register
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -63,7 +73,39 @@ const Home = ({ selectedOrg }) => {
         </div>
       </section>
       
-      <NextEventCarousel />
+      {/* Registration Success Message */}
+      {showRegistrationSuccess && (
+        <div
+          id="registration-success-popup"
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowRegistrationSuccess(false)}
+        >
+          <div
+            id="registration-success-content"
+            className="bg-white rounded-lg shadow-xl p-6 sm:p-8 max-w-md w-full mx-4 relative"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="registration-success-title"
+          >
+            <h2 id="registration-success-title" className="text-2xl font-bold text-tec-blue text-center mb-4">
+              Registration Successful!
+            </h2>
+            <p id="registration-success-message" className="text-gray-700 text-center mb-6">
+              You have been successfully registered for this event.
+            </p>
+            <button
+              id="registration-success-close-button"
+              onClick={() => setShowRegistrationSuccess(false)}
+              className="w-full bg-tec-blue text-white px-4 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      
+      <NextEventCarousel isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />
       <PastEventsCarousel />
     </>
   )

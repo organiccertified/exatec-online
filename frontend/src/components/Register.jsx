@@ -1,10 +1,16 @@
 import { useState } from 'react'
 
-const Register = ({ selectedOrg }) => {
+const Register = ({ selectedOrg, isSignedIn, setShowSignIn }) => {
   const [showPopup, setShowPopup] = useState(false)
 
   const handleAccept = () => {
-    setShowPopup(true)
+    if (isSignedIn) {
+      // User is signed in, proceed with registration
+      setShowPopup(true)
+    } else {
+      // User is not signed in, show sign-in modal
+      setShowSignIn(true)
+    }
   }
 
   const handleClosePopup = () => {
@@ -43,8 +49,11 @@ const Register = ({ selectedOrg }) => {
               onClick={(e) => e.stopPropagation()}
             >
               <h2 id="register-popup-title" className="text-xl sm:text-2xl font-bold text-tec-blue text-center mb-4">
-                Registered
+                Registration Successful!
               </h2>
+              <p id="register-popup-message" className="text-gray-700 text-center mb-6">
+                You have been successfully registered to the distribution list of Exatec {selectedOrg}.
+              </p>
               <div id="register-popup-button-container" className="flex justify-center mt-6">
                 <button
                   id="register-popup-close-button"
