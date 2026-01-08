@@ -22,14 +22,14 @@ const Footer = ({ isSignedIn, setShowSignIn }) => {
             </Link>
             <Link
               id="footer-register-link"
-              to="/register"
+              to="/subscribe"
               className={`text-sm sm:text-base hover:underline focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-tec-blue rounded px-2 py-1 transition-all ${
-                location.pathname === '/register' ? 'font-semibold underline' : ''
+                location.pathname === '/subscribe' ? 'font-semibold underline' : ''
               }`}
-              aria-label="Register"
-              aria-current={location.pathname === '/register' ? 'page' : undefined}
+              aria-label="Subscribe"
+              aria-current={location.pathname === '/subscribe' ? 'page' : undefined}
             >
-              Register
+              Subscribe
             </Link>
             <Link
               id="footer-board-link"

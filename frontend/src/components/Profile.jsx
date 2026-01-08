@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-const Profile = ({ isSignedIn, setShowSignIn, selectedOrg, setSelectedOrg }) => {
+const Profile = ({ isSignedIn, setShowSignIn, selectedOrg, setSelectedOrg, isSubscribed, setIsSubscribed }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [showUnsubscribeConfirm, setShowUnsubscribeConfirm] = useState(false)
   const [profileData, setProfileData] = useState({
     firstName: '',
     lastName: '',
@@ -201,6 +202,15 @@ const Profile = ({ isSignedIn, setShowSignIn, selectedOrg, setSelectedOrg }) => 
               >
                 Save
               </button>
+              {isSubscribed && (
+                <button
+                  id="profile-unsubscribe-button"
+                  onClick={() => setShowUnsubscribeConfirm(true)}
+                  className="flex-1 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium text-base focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2"
+                >
+                  Unsubscribe
+                </button>
+              )}
               <button
                 id="profile-delete-account-button"
                 onClick={() => setShowDeleteConfirm(true)}
@@ -250,6 +260,47 @@ const Profile = ({ isSignedIn, setShowSignIn, selectedOrg, setSelectedOrg }) => 
               <button
                 id="profile-delete-confirm-no-button"
                 onClick={() => setShowDeleteConfirm(false)}
+                className="flex-1 bg-gray-300 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium text-base focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Unsubscribe Confirmation Popup */}
+      {showUnsubscribeConfirm && (
+        <div
+          id="profile-unsubscribe-confirm-overlay"
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowUnsubscribeConfirm(false)}
+        >
+          <div
+            id="profile-unsubscribe-confirm-content"
+            className="bg-white rounded-lg shadow-xl p-6 sm:p-8 max-w-md w-full mx-4 relative"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="profile-unsubscribe-confirm-title"
+          >
+            <h2 id="profile-unsubscribe-confirm-title" className="text-2xl font-bold text-gray-800 text-center mb-4">
+              Are you sure you want to unsubscribe from the distribution list?
+            </h2>
+            <div id="profile-unsubscribe-confirm-buttons" className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
+              <button
+                id="profile-unsubscribe-confirm-yes-button"
+                onClick={() => {
+                  setIsSubscribed(false)
+                  setShowUnsubscribeConfirm(false)
+                }}
+                className="flex-1 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium text-base focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2"
+              >
+                Yes
+              </button>
+              <button
+                id="profile-unsubscribe-confirm-no-button"
+                onClick={() => setShowUnsubscribeConfirm(false)}
                 className="flex-1 bg-gray-300 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium text-base focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
               >
                 No

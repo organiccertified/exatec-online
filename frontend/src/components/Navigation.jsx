@@ -177,15 +177,15 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
                   Home
                 </Link>
                 <Link
-                  to="/register"
+                  to="/subscribe"
                   onClick={closeMenu}
                   className={`px-6 py-4 text-base font-semibold border-b border-gray-100 transition-colors ${
-                    location.pathname === '/register' 
+                    location.pathname === '/subscribe' 
                       ? 'bg-tec-blue text-white' 
                       : 'text-tec-blue hover:bg-gray-50'
                   }`}
                 >
-                  Register
+                  Subscribe
                 </Link>
                 <Link
                   to="/board"
@@ -435,15 +435,15 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
           </Link>
           <Link
             id="navigation-register-button"
-            to="/register"
-            aria-current={location.pathname === '/register' ? 'page' : undefined}
+            to="/subscribe"
+            aria-current={location.pathname === '/subscribe' ? 'page' : undefined}
             className={`flex-1 sm:flex-none px-6 sm:px-5 md:px-6 py-4 sm:py-2 text-base sm:text-base rounded-lg transition-all font-semibold text-center focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-offset-2 min-h-[56px] sm:min-h-[44px] flex items-center justify-center active:scale-95 touch-manipulation ${
-              location.pathname === '/register' 
+              location.pathname === '/subscribe' 
                 ? 'bg-tec-blue text-white hover:bg-tec-blue-dark shadow-md' 
                 : 'bg-white text-tec-blue border-2 border-tec-blue hover:bg-tec-blue hover:text-white shadow-sm active:shadow-md'
             }`}
           >
-            Register
+            Subscribe
           </Link>
           <Link
             id="navigation-board-button"

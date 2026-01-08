@@ -22,6 +22,38 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
       document.removeEventListener('click', handleClickOutside)
     }
   }, [isUserMenuOpen])
+
+  // Close sign-in popup when clicking on any link
+  useEffect(() => {
+    const handleLinkClick = (event) => {
+      if (!showSignIn) return
+      
+      // Don't close if clicking inside the sign-in popup content
+      if (event.target.closest('#signin-popup-content')) {
+        return
+      }
+      
+      // Check if the clicked element is a link (a tag or React Router Link)
+      const clickedElement = event.target
+      const isLink = clickedElement.closest('a') || 
+                     clickedElement.closest('[role="link"]') ||
+                     (clickedElement.tagName === 'A')
+      
+      // Close popup if clicking on a link outside the popup
+      if (isLink) {
+        setShowSignIn(false)
+      }
+    }
+
+    if (showSignIn) {
+      // Use capture phase to catch events early, before they bubble
+      document.addEventListener('click', handleLinkClick, true)
+    }
+
+    return () => {
+      document.removeEventListener('click', handleLinkClick, true)
+    }
+  }, [showSignIn])
   const [signInData, setSignInData] = useState({
     email: '',
     password: ''
@@ -214,12 +246,16 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
         <>
           <div
             id="signin-popup-overlay"
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50"
             onClick={() => setShowSignIn(false)}
+          ></div>
+          <div
+            id="signin-popup-container"
+            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
           >
             <div
               id="signin-popup-content"
-              className="bg-white rounded-lg shadow-xl p-4 sm:p-8 max-w-md w-full mx-4 relative max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-lg shadow-xl p-4 sm:p-8 max-w-md w-full mx-4 relative max-h-[90vh] overflow-y-auto pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
@@ -488,13 +524,13 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                   Note: We collect and store personal information submitted through this form.
                 </div>
 
-                {/* Register Button */}
+                {/* Subscribe Button */}
                 <button
                   id="signup-register-button"
                   type="submit"
                   className="w-full bg-tec-blue text-white px-4 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
                 >
-                  Register
+                  Subscribe
                 </button>
               </form>
 
