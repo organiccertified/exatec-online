@@ -33,8 +33,8 @@ function App() {
           backgroundAttachment: 'fixed'
         }}
       >
-        <Header selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} showSignIn={showSignIn} setShowSignIn={setShowSignIn} isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
-        <Navigation selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} onSignInClick={() => setShowSignIn(true)} isSignedIn={isSignedIn} onSignOut={() => setIsSignedIn(false)} setShowSignIn={setShowSignIn} />
+            <Header selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} showSignIn={showSignIn} setShowSignIn={setShowSignIn} isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} cities={cities} citiesLoading={citiesLoading} />
+            <Navigation selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} onSignInClick={() => setShowSignIn(true)} isSignedIn={isSignedIn} onSignOut={() => setIsSignedIn(false)} setShowSignIn={setShowSignIn} cities={cities} citiesLoading={citiesLoading} />
         <main id="app-main" className="flex-grow">
           <Routes>
             <Route path="/" element={<Home selectedOrg={selectedOrg} />} />
@@ -42,7 +42,7 @@ function App() {
             <Route path="/board" element={<Board isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About selectedOrg={selectedOrg} />} />
-            <Route path="/profile" element={<Profile isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} isSubscribed={isSubscribed} setIsSubscribed={setIsSubscribed} />} />
+                <Route path="/profile" element={<Profile isSignedIn={isSignedIn} setShowSignIn={setShowSignIn} selectedOrg={selectedOrg} setSelectedOrg={setSelectedOrg} isSubscribed={isSubscribed} setIsSubscribed={setIsSubscribed} cities={cities} />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/:city/event/:eventId" element={<EventDetail selectedOrg={selectedOrg} />} />
           </Routes>

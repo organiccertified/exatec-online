@@ -109,66 +109,37 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
               ></div>
               <div 
                 id="header-dropdown-menu" 
-                className="absolute left-0 mt-2 w-full sm:w-48 bg-white rounded-lg shadow-lg z-20 border border-gray-200"
+                className="absolute left-0 mt-2 w-full sm:w-48 bg-white rounded-lg shadow-lg z-20 border border-gray-200 max-h-64 overflow-y-auto"
                 role="listbox"
                 aria-label="Organization options"
               >
-                <button
-                  id="header-dropdown-option-dallas"
-                  onClick={() => {
-                    setSelectedOrg('Dallas')
-                    setIsOpen(false)
-                  }}
-                  role="option"
-                  aria-selected={selectedOrg === 'Dallas'}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
-                    selectedOrg === 'Dallas' ? 'bg-tec-blue text-white' : 'text-gray-700'
-                  }`}
-                >
-                  Dallas
-                </button>
-                <button
-                  id="header-dropdown-option-chicago"
-                  onClick={() => {
-                    setSelectedOrg('Chicago')
-                    setIsOpen(false)
-                  }}
-                  role="option"
-                  aria-selected={selectedOrg === 'Chicago'}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
-                    selectedOrg === 'Chicago' ? 'bg-tec-blue text-white' : 'text-gray-700'
-                  }`}
-                >
-                  Chicago
-                </button>
-                <button
-                  id="header-dropdown-option-san-antonio"
-                  onClick={() => {
-                    setSelectedOrg('San Antonio')
-                    setIsOpen(false)
-                  }}
-                  role="option"
-                  aria-selected={selectedOrg === 'San Antonio'}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
-                    selectedOrg === 'San Antonio' ? 'bg-tec-blue text-white' : 'text-gray-700'
-                  }`}
-                >
-                  San Antonio
-                </button>
-                <button
-                  id="header-dropdown-option-houston"
-                  onClick={() => {
-                    setSelectedOrg('Houston')
-                    setIsOpen(false)
-                  }}
-                  role="option"
-                  aria-selected={selectedOrg === 'Houston'}
-                  className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
-                    selectedOrg === 'Houston' ? 'bg-tec-blue text-white' : 'text-gray-700'
-                  }`}
-                >
-                  Houston
-                </button>
+                {citiesLoading ? (
+                  <div className="px-4 py-2 text-center text-gray-500">
+                    Loading...
+                  </div>
+                ) : cities.length === 0 ? (
+                  <div className="px-4 py-2 text-center text-gray-500">
+                    No cities available
+                  </div>
+                ) : (
+                  cities.map((city) => (
+                    <button
+                      key={city.id}
+                      id={`header-dropdown-option-${city.slug}`}
+                      onClick={() => {
+                        setSelectedOrg(city.name)
+                        setIsOpen(false)
+                      }}
+                      role="option"
+                      aria-selected={selectedOrg === city.name}
+                      className={`w-full text-left px-4 py-2 hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
+                        selectedOrg === city.name ? 'bg-tec-blue text-white' : 'text-gray-700'
+                      }`}
+                    >
+                      {city.name}
+                    </button>
+                  ))
+                )}
               </div>
             </>
           )}
@@ -399,9 +370,11 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     required
                   >
                     <option value="">Association you want to register to:</option>
-                    <option value="Dallas">Dallas</option>
-                    <option value="New York">New York</option>
-                    <option value="Chicago">Chicago</option>
+                    {cities.map((city) => (
+                      <option key={city.id} value={city.name}>
+                        {city.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 

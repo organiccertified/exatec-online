@@ -1,18 +1,27 @@
 // Backend server entry point for Hostinger
-// Install dependencies: npm install express cors dotenv
+// Install dependencies: npm install express cors dotenv pg
 
-// Example using Express (uncomment and install dependencies when ready)
-/*
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-dotenv.config();
+// Load environment variables based on NODE_ENV
+// In development: loads .env.development (when running npm run dev)
+// In production: loads .env.production (when running npm start)
+// Default to development if NODE_ENV is not set
+const nodeEnv = process.env.NODE_ENV || 'development';
+const envFile = nodeEnv === 'production' ? '.env.production' : '.env.development';
+dotenv.config({ path: envFile });
+
+// Set NODE_ENV if not already set (for npm run dev)
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development';
+}
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// CORS configuration for Hostinger
+// CORS configuration
 const corsOptions = {
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
@@ -26,17 +35,19 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+  const dbEnv = process.env.NODE_ENV === 'development' ? 'TEST' : 'PRODUCTION';
   res.json({ 
     status: 'ok', 
     message: 'Backend server is running',
+    environment: process.env.NODE_ENV || 'development',
+    database: dbEnv,
     timestamp: new Date().toISOString()
   });
 });
 
-// TODO: Add your API routes here
-// Example:
-// import authRoutes from './routes/auth.js';
-// app.use('/api/auth', authRoutes);
+// API Routes
+import citiesRoutes from './routes/cities.js';
+app.use('/api/cities', citiesRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -53,12 +64,9 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Backend server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  const dbEnv = process.env.NODE_ENV === 'development' ? 'TEST' : 'PRODUCTION';
+  console.log(`🚀 Backend server running on port ${PORT}`);
+  console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🗄️  Database: ${dbEnv}`);
 });
-*/
-
-// Placeholder - replace with your backend implementation
-console.log('Backend server placeholder - implement your backend here');
-console.log('For Hostinger: Install express, cors, and dotenv packages');
 

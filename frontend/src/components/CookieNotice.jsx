@@ -42,7 +42,7 @@ const CookieNotice = () => {
               Cookie Notice
             </h3>
             <p className="text-sm sm:text-base leading-relaxed">
-              We use cookies and similar technologies to provide personalized advertisements through Google AdSense, analyze site usage with Google Analytics, and improve your experience. By clicking "Accept," you consent to our use of cookies. You can manage your preferences in your browser settings.
+              We use cookies and similar technologies to improve your experience on our website. By clicking "Accept," you consent to our use of cookies. You can manage your preferences in your browser settings.
             </p>
           </div>
           <div className="flex gap-3 w-full sm:w-auto">

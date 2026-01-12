@@ -183,9 +183,11 @@ const Profile = ({ isSignedIn, setShowSignIn, selectedOrg, setSelectedOrg, isSub
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue text-base text-gray-700 bg-white"
                 >
-                  <option value="Dallas">Dallas</option>
-                  <option value="New York">New York</option>
-                  <option value="Chicago">Chicago</option>
+                  {cities.map((city) => (
+                    <option key={city.id} value={city.name}>
+                      {city.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

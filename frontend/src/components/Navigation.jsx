@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import exatecLogo from '../pictures/exatec-blue-med.png'
 
-const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, onSignOut, setShowSignIn }) => {
+const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, onSignOut, setShowSignIn, cities = [], citiesLoading = false }) => {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOrgDropdownOpen, setIsOrgDropdownOpen] = useState(false)
@@ -309,52 +309,37 @@ const Navigation = ({ selectedOrg, setSelectedOrg, onSignInClick, isSignedIn, on
               ></div>
               <div 
                 id="navigation-organization-dropdown" 
-                className="absolute top-full mt-2 bg-white rounded-lg shadow-lg z-20 border border-gray-200 min-w-[150px]"
+                className="absolute top-full mt-2 bg-white rounded-lg shadow-lg z-20 border border-gray-200 min-w-[150px] max-h-64 overflow-y-auto"
                 role="listbox"
                 aria-label="Organization options"
               >
-                <button
-                  id="navigation-organization-option-dallas"
-                  onClick={() => {
-                    setSelectedOrg('Dallas')
-                    setIsOrgDropdownOpen(false)
-                  }}
-                  role="option"
-                  aria-selected={selectedOrg === 'Dallas'}
-                  className={`w-full text-left px-4 py-3 text-base sm:text-lg hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
-                    selectedOrg === 'Dallas' ? 'bg-tec-blue text-white' : 'text-gray-700'
-                  }`}
-                >
-                  Dallas
-                </button>
-                <button
-                  id="navigation-organization-option-new-york"
-                  onClick={() => {
-                    setSelectedOrg('New York')
-                    setIsOrgDropdownOpen(false)
-                  }}
-                  role="option"
-                  aria-selected={selectedOrg === 'New York'}
-                  className={`w-full text-left px-4 py-3 text-base sm:text-lg hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
-                    selectedOrg === 'New York' ? 'bg-tec-blue text-white' : 'text-gray-700'
-                  }`}
-                >
-                  New York
-                </button>
-                <button
-                  id="navigation-organization-option-chicago"
-                  onClick={() => {
-                    setSelectedOrg('Chicago')
-                    setIsOrgDropdownOpen(false)
-                  }}
-                  role="option"
-                  aria-selected={selectedOrg === 'Chicago'}
-                  className={`w-full text-left px-4 py-3 text-base sm:text-lg hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
-                    selectedOrg === 'Chicago' ? 'bg-tec-blue text-white' : 'text-gray-700'
-                  }`}
-                >
-                  Chicago
-                </button>
+                {citiesLoading ? (
+                  <div className="px-4 py-3 text-center text-gray-500">
+                    Loading...
+                  </div>
+                ) : cities.length === 0 ? (
+                  <div className="px-4 py-3 text-center text-gray-500">
+                    No cities available
+                  </div>
+                ) : (
+                  cities.map((city) => (
+                    <button
+                      key={city.id}
+                      id={`navigation-organization-option-${city.slug}`}
+                      onClick={() => {
+                        setSelectedOrg(city.name)
+                        setIsOrgDropdownOpen(false)
+                      }}
+                      role="option"
+                      aria-selected={selectedOrg === city.name}
+                      className={`w-full text-left px-4 py-3 text-base sm:text-lg hover:bg-tec-blue hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-tec-blue focus:ring-inset ${
+                        selectedOrg === city.name ? 'bg-tec-blue text-white' : 'text-gray-700'
+                      }`}
+                    >
+                      {city.name}
+                    </button>
+                  ))
+                )}
               </div>
             </>
           )}

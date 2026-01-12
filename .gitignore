@@ -23,8 +23,12 @@ frontend/dist-ssr/
 .env.local
 .env.production
 .env.development
+.env.*.local
 backend/.env
 backend/.env.local
+backend/.env.production
+backend/.env.development
+backend/.env.*.local
 
 # MCP and API tokens (never commit these)
 *.mcp.json

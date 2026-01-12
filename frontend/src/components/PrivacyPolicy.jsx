@@ -60,7 +60,7 @@ const PrivacyPolicy = () => {
           <div id="privacy-policy-cookies">
             <h2 className="text-xl font-bold text-tec-blue mb-3">Cookies and Analytics</h2>
             <p className="text-gray-700 leading-relaxed">
-              Our website uses Google AdSense, which may use cookies and similar technologies to serve personalized advertisements. These cookies help us understand how visitors interact with our site and enable us to provide relevant advertising. You can manage your cookie preferences through your browser settings.
+              Our website uses cookies and similar technologies to improve your experience and understand how visitors interact with our site. You can manage your cookie preferences through your browser settings.
             </p>
           </div>
 
