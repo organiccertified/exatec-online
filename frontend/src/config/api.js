@@ -5,12 +5,12 @@ const getApiUrl = () => {
   // In development mode, use test database API
   // In production build, use production database API
   if (import.meta.env.MODE === 'development') {
-    // Development: Frontend runs locally, connects to test DB on Hostinger
-    return import.meta.env.VITE_API_URL_TEST || 'https://your-hostinger-vps.com/api'
-  } else {
-    // Production: Frontend deployed, connects to production DB on Hostinger
-    return import.meta.env.VITE_API_URL_PROD || 'https://your-hostinger-vps.com/api'
+    // Development: Frontend runs locally
+    return import.meta.env.VITE_API_URL_TEST || 'http://localhost:3001/api'
   }
+
+  // Production: Frontend deployed
+  return import.meta.env.VITE_API_URL_PROD || 'https://exatec.online/api'
 }
 
 export const API_BASE_URL = getApiUrl()

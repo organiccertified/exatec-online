@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useCities } from './hooks/useCities'
 import Header from './components/Header'
 import Navigation from './components/Navigation'
 import Home from './components/Home'
@@ -19,6 +20,7 @@ function App() {
   const [showSignIn, setShowSignIn] = useState(false)
   const [isSignedIn, setIsSignedIn] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
+  const { cities, loading: citiesLoading } = useCities()
 
   return (
     <Router>

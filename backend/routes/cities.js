@@ -3,20 +3,29 @@ import pool from '../config/database.js';
 
 const router = express.Router();
 
-// GET /api/cities - Get all cities/chapters
+// GET /api/cities - Get all chapters
 router.get('/', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT 
-        id,
-        name,
-        slug,
-        description,
-        member_count,
-        created_at,
-        updated_at
-      FROM cities
-      ORDER BY name ASC
+      SELECT
+        chapter.id,
+        chapter.name,
+        chapter.slug,
+        chapter.city,
+        chapter.state,
+        chapter.country,
+        chapter.timezone,
+        chapter.is_active,
+        chapter.created_at,
+        chapter.updated_at,
+        COUNT(chapter_membership.user_id)::int AS member_count
+      FROM chapter
+      LEFT JOIN chapter_membership
+        ON chapter_membership.chapter_id = chapter.id
+        AND chapter_membership.left_at IS NULL
+      WHERE chapter.is_active = true
+      GROUP BY chapter.id
+      ORDER BY chapter.name ASC
     `);
 
     res.json({
@@ -34,28 +43,36 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/cities/:citySlug - Get city details by slug
+// GET /api/cities/:citySlug - Get chapter details by slug
 router.get('/:citySlug', async (req, res) => {
   try {
     const { citySlug } = req.params;
 
     const result = await pool.query(`
-      SELECT 
-        id,
-        name,
-        slug,
-        description,
-        member_count,
-        created_at,
-        updated_at
-      FROM cities
-      WHERE slug = $1
+      SELECT
+        chapter.id,
+        chapter.name,
+        chapter.slug,
+        chapter.city,
+        chapter.state,
+        chapter.country,
+        chapter.timezone,
+        chapter.is_active,
+        chapter.created_at,
+        chapter.updated_at,
+        COUNT(chapter_membership.user_id)::int AS member_count
+      FROM chapter
+      LEFT JOIN chapter_membership
+        ON chapter_membership.chapter_id = chapter.id
+        AND chapter_membership.left_at IS NULL
+      WHERE chapter.slug = $1
+      GROUP BY chapter.id
     `, [citySlug]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        error: 'City not found'
+        error: 'Chapter not found'
       });
     }
 

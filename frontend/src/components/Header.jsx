@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { buildApiUrl } from '../config/api'
 
-const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSignedIn, setIsSignedIn }) => {
+const Header = ({
+  selectedOrg,
+  setSelectedOrg,
+  showSignIn,
+  setShowSignIn,
+  isSignedIn,
+  setIsSignedIn,
+  cities = []
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [showSignUp, setShowSignUp] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
@@ -63,11 +72,14 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
     firstName: '',
     lastName: '',
     email: '',
+    matricula: '',
+    password: '',
     phone: '',
     campus: '',
     degree: '',
     graduationYear: ''
   })
+  const [isSigningUp, setIsSigningUp] = useState(false)
 
   return (
     <header id="header-main" className="w-full bg-white shadow-md" role="banner">
@@ -275,7 +287,7 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
                     aria-label="Email Address"
                     aria-required="true"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue text-base text-gray-700 bg-white"
                     required
                   />
                 </div>
@@ -349,12 +361,46 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
               <form 
                 id="signup-form" 
                 className="space-y-4"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault()
-                  // Handle sign-up logic here
-                  console.log('Sign up data:', signUpData)
-                  // Close modal after submission
-                  setShowSignUp(false)
+                  if (isSigningUp) return
+
+                  try {
+                    setIsSigningUp(true)
+                    const response = await fetch(buildApiUrl('/users/signup'), {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(signUpData)
+                    })
+
+                    if (!response.ok) {
+                      const errorBody = await response.json().catch(() => ({}))
+                      throw new Error(
+                        errorBody.message ||
+                        errorBody.error ||
+                        'Failed to sign up'
+                      )
+                    }
+
+                    setSignUpData({
+                      association: '',
+                      firstName: '',
+                      lastName: '',
+                      email: '',
+                      matricula: '',
+                      password: '',
+                      phone: '',
+                      campus: '',
+                      degree: '',
+                      graduationYear: ''
+                    })
+                    setShowSignUp(false)
+                  } catch (error) {
+                    console.error('Sign up failed:', error)
+                    alert(error.message || 'Sign up failed. Please try again.')
+                  } finally {
+                    setIsSigningUp(false)
+                  }
                 }}
               >
                 {/* Association Dropdown */}
@@ -388,9 +434,8 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     value={signUpData.firstName}
                     onChange={(e) => setSignUpData({ ...signUpData, firstName: e.target.value })}
                     aria-label="First Name"
-                    aria-required="true"
+                    aria-required="false"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
-                    required
                   />
                 </div>
 
@@ -404,9 +449,8 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     value={signUpData.lastName}
                     onChange={(e) => setSignUpData({ ...signUpData, lastName: e.target.value })}
                     aria-label="Last Name"
-                    aria-required="true"
+                    aria-required="false"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
-                    required
                   />
                 </div>
 
@@ -418,11 +462,26 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     type="email"
                     placeholder="Email:"
                     value={signUpData.email}
-                    onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                    onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value.trim() })}
                     aria-label="Email"
                     aria-required="true"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
                     required
+                  />
+                </div>
+
+                {/* Matricula */}
+                <div id="signup-matricula-field">
+                  <label htmlFor="signup-matricula-input" className="sr-only">Matricula</label>
+                  <input
+                    id="signup-matricula-input"
+                    type="text"
+                    placeholder="Matricula:"
+                    value={signUpData.matricula}
+                    onChange={(e) => setSignUpData({ ...signUpData, matricula: e.target.value })}
+                    aria-label="Matricula"
+                    aria-required="false"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
                   />
                 </div>
 
@@ -436,9 +495,8 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     value={signUpData.phone}
                     onChange={(e) => setSignUpData({ ...signUpData, phone: e.target.value })}
                     aria-label="Phone"
-                    aria-required="true"
+                    aria-required="false"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
-                    required
                   />
                 </div>
 
@@ -452,9 +510,8 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     value={signUpData.campus}
                     onChange={(e) => setSignUpData({ ...signUpData, campus: e.target.value })}
                     aria-label="Campus"
-                    aria-required="true"
+                    aria-required="false"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
-                    required
                   />
                 </div>
 
@@ -468,9 +525,8 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     value={signUpData.degree}
                     onChange={(e) => setSignUpData({ ...signUpData, degree: e.target.value })}
                     aria-label="Degree"
-                    aria-required="true"
+                    aria-required="false"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
-                    required
                   />
                 </div>
 
@@ -486,9 +542,23 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                     value={signUpData.graduationYear}
                     onChange={(e) => setSignUpData({ ...signUpData, graduationYear: e.target.value })}
                     aria-label="Graduation Year"
-                    aria-required="true"
+                    aria-required="false"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
-                    required
+                  />
+                </div>
+
+                {/* Password */}
+                <div id="signup-password-field">
+                  <label htmlFor="signup-password-input" className="sr-only">Password</label>
+                  <input
+                    id="signup-password-input"
+                    type="password"
+                    placeholder="Password:"
+                    value={signUpData.password}
+                    onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+                    aria-label="Password"
+                    aria-required="false"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tec-blue"
                   />
                 </div>
 
@@ -497,13 +567,14 @@ const Header = ({ selectedOrg, setSelectedOrg, showSignIn, setShowSignIn, isSign
                   Note: We collect and store personal information submitted through this form.
                 </div>
 
-                {/* Subscribe Button */}
+                {/* Sign Up Button */}
                 <button
                   id="signup-register-button"
                   type="submit"
-                  className="w-full bg-tec-blue text-white px-4 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium"
+                  className="w-full bg-tec-blue text-white px-4 py-2 rounded-lg hover:bg-tec-blue-dark transition-colors font-medium disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled={isSigningUp}
                 >
-                  Subscribe
+                  {isSigningUp ? 'Signing up...' : 'Sign up'}
                 </button>
               </form>
 
